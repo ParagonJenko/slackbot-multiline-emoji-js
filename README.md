@@ -4,7 +4,7 @@ _This was originally attempted to be built in Python but unfortunately the libra
 
 ## How do I use this?
 
-See the page for that!
+See [the GitHub pages](https://paragonjenko.github.io/slackbot-multiline-emoji-js/)
 
 ## The Project:
 
