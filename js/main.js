@@ -12,7 +12,7 @@ const VALID_EXTENSIONS = [
 
 let fileUpload, squares, prefix, fileName, txt, progress, numOfTiles;
 let previewDiv, prev;
-let download;
+let download, timeTaken;
 
 const section = document.createElement('canvas');
 const ctx = section.getContext('2d');
@@ -40,6 +40,8 @@ function init() {
 
   download = document.getElementById("download");
 
+  timeTaken = document.getElementById("time-taken");
+
   form.addEventListener('submit', e => e.preventDefault());
   addEventListeners();
 }
@@ -64,9 +66,8 @@ function handleFileChange () {
 
 async function splitImages(){
   if (!isValidFile(file)) return;
-
   const size = +horizontalSquares.value;
-  submit.value = "Working...";
+  submit.classList.add('is-loading');
 
   form.removeEventListener('submit', splitImages);
   fileUpload.removeEventListener('change', handleFileChange);
@@ -81,7 +82,7 @@ async function splitImages(){
   const prefix = (prefixInput.value || file.name.replace(/\.\w+$/, '')).replace(/\s+/g, '_').replace(/[^\w]/g, '');
   const zip = new JSZip();
   let str  = `\`${ prefix }\`\\n`;
-  
+  const startTime = Date.now();
 
   let img = new Image();
   img.src= URL.createObjectURL(file); 
@@ -126,6 +127,7 @@ async function splitImages(){
     })
   });
 
+  submit.classList.remove('is-loading');
   progress.innerText = `Progress: ${ numOfTiles }/${ numOfTiles }`;
 
   txt.value += str;
@@ -134,6 +136,7 @@ async function splitImages(){
   currentZip = await zip.generateAsync({ type: 'blob' });
 
   download.removeAttribute("disabled", "")
+  timeTaken.innerText = `Time taken: ${ Date.now() - startTime }ms`;
   submit.value = 'Split';
 
   download.removeEventListener('click', save);
