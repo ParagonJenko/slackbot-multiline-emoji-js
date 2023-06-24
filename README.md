@@ -21,3 +21,7 @@ I couldn't understand it enough in the timeframe I wanted to build my MVP so I'v
 I just need a really basic way to display the string - not to pull the image.
 
 Therefore I've built this to display a 2x2 grid that you can copy into Slackbot.
+
+### To Do List:
+
+1. Refactor the library to allow for entering by squares - not by pixels.

@@ -1,8 +1,8 @@
-.flex-container {
-    display: flex;
-    flex-direction: column;
+.imageRow img {
+    border: .8px solid #c80000;
 }
 
-#emojiFile {
-    padding: 0.5rem;
+.imageRow {
+    margin: 0 !important;
+    padding: 0 !important;
 }

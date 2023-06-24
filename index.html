@@ -2,93 +2,131 @@
 
 <head>
     <!-- SEO Tags -->
-    <title> Slackbot Multiline Emoji Maker </title>
+    <title> Image Splitter for Slack </title>
     <meta charset='UTF-8'>
-    <meta name='description' content='Makes creating multiline Slackbot emojis easier.'>
+    <meta name='description' content='Splits images into square tiles.'>
     <meta name='author' content='Alex Jenkinson'>
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-    <meta property='og:description' content='Makes creating multiline Slackbot emojis easier.'>
-    <meta property='og:title' content='Slackbot Multiline Emoji Maker'>
-    <meta property='og:site_name' content='slackbot-multiline-emoji-maker'>
+    <meta property='og:description' content='Splits images into square tiles.'>
+    <meta property='og:title' content='Image Splitter'>
+    <meta property='og:site_name' content='image-splitter'>
     <meta property='og:type' content='website'>
-    <meta property='og:url' content=''>
+    <meta property='og:url' content='https://paragonjenko.github.io/slackbot-multiline-emoji-js/'>
     <meta charset="utf-8">
 
     <!-- Stylesheets -->
     <link href="styles.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
 
+    <!-- Scripts -->
 
+    <script type="text/javascript" src="js/main.js"></script>
 </head>
 
 <body>
 
-    <h1> Slackbot Multiline Emoji Maker </h1>
-    <h2> A small tool to create mulitline Slackbot emojis! </h2>
-    <p style="color: grey;">This will be expanded to allow up to any amount of squares, processing directly from images and develop the image download - but for now enjoy!</p>
-
-    <h3>How to use:</h3>
-    <ol>
-        <li>You need to go to <a href="https://ruyili.ca/image-splitter/">Image Splitter</a> and cut the image into a 2x2 grid with a prefix
-        that you can type out.</li>
-        <li>You need to download the files and add them to your Slack workspace in the {workspace}.slack.com/customize/emoji
-        section.</li>
-        <li>You then need to enter the command you want to use and all four image names into the form inputs in their
-        corresponding slots.</li>
-        <li>Hit generate!</li>
-        <li>Copy that string into your Slackbot responds section in a response in {workspace}.slack.com/customize/slackbot.</li>
-    </ol>
-
-    <form>
-
-        <!-- <input type="file" id="emojiFile"> -->
-
-        <!-- <label for="cars">What size?</label>
-        <select name="gridSize" id="gridSize">
-            <option value="2">2x2</option>
-            <option value="3">3x3</option>
-        </select> -->
-
-        <div class="flex-container">
-
-            <div class="">
-                <input type="text" id="command" placeholder="Emoji command" value="">
+    <div class="columns is-centered">
+        <div class="column is-half">
+            <div class="card p-6">
+                <h1 class="title is-1"> Image Splitter </h1>
+                <p class="subtitle is-5"> A small tool to split images into square tiles, like large Slack emojis. </p>
             </div>
+            
+        </div>
+    </div>
 
-            <div class="">
-                <input type="text" id="topleft" placeholder="Top left" value="">
-                <!-- <input type="text" id="topmiddle" placeholder="Top Middle"> -->
-                <input type="text" id="topright" placeholder="Top right" value="">
-            </div>
-            <!-- <div class="">
-                <input type="text" id="middleleft" placeholder="Middle Left">
-                <input type="text" id="middlemiddle" placeholder="Middle Middle">
-                <input type="text" id="middleright" placeholder="Middle Right">
-            </div> -->
-            <div class="">
-                <input type="text" id="bottomleft" placeholder="Bottom left" value="">
-                <!-- <input type="text" id="bottommiddle" placeholder="Bottom Middle"> -->
-                <input type="text" id="bottomright" placeholder="Bottom right" value="">
-            </div>
 
+    <!--  -->
+
+    <div class="columns mx-3">
+
+        <!-- Form -->
+        <div class="column">
+            <div class="box">
+                <form id="form">
+
+                    <div class="field">
+                        <div class="file has-name">
+                            <label class="file-label" for="file-upload">
+                                <input class="file-input" type="file" id="file-upload">
+                                <span class="file-cta">
+                                    <span class="file-icon">
+                                        <i class="fas fa-upload"></i>
+                                    </span>
+                                    <span class="file-label">
+                                        Choose a file…
+                                    </span>
+                                </span>
+                                <span class="file-name" id="file-name">
+                                    No file selected.
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+                
+                    <div class="field">
+                        <label for="squares">
+                            How many horizontal squares:
+                        </label>
+                        <input class="input" type="number" value="2" id="squares">
+                    </div>
+
+                    <div class="field">
+                        <label for="prefix">
+                            Prefix for the image files:
+                        </label>
+                        <input class="input" type="text" id="prefix" placeholder="Prefix...">
+                    </div>
+                
+                    <input class="button " type="submit" value="Split" id="submit">
+                </form>
+            </div>
         </div>
 
-        <button id="generate" type="button" onclick="updateGrid()">Generate</button>
+        <!-- Preview -->
+        <div class="column">
+            <div class="box">
+                <p>Preview:</p>
+                <div id="preview-box">
+                    <div id="preview-div"></div>
+                </div>
+            </div>
+        </div>
 
-    </form>
+        <!-- Download -->
+        <div class="column">
+            <div class="box">
+                <a class="button is-light"> Download </a>
+                <strong></strong>
+                <p id="download-progress" class="subtitle is-6"></p>
+            </div>
+        </div>
 
-    <p id="slackbot_string">Copy this...</p>
+    </div>
 
-    <!-- 
+    <div class="box m-6">
+        <p> Copy this to display the emojis after you've finished uploading them. </p>
+        <textarea id="commandTextArea" readonly class="textarea"></textarea>
+    </div>
 
-        We need size of each emoji in pixels
-        Name of the emoji
-        Command they want to use
+    
 
-     -->
+    <div id="footer" class="footer">
+        <div class="content has-text-centered">
+            <h4>
+                Image Splitter created by
+                <a href="https://alexjenkinson.com">Alex Jenkinson</a>
+            </h4>
 
+            <h5>
+                This project is open source! Click
+                <a href="https://github.com/ParagonJenko/slackbot-multiline-emoji-js">here</a>
+                to view the repository.
 
-    <!-- Scripts -->
-    <script type="text/javascript" src="main.js"></script>
+                <p class="subtitle is-6"><em>And this was adapted from <a href="https://github.com/RuyiLi/image-splitter">RuyiLi's Image Splitter</a></em></p>
+            </h5>
+        </div>
+    </div>
 
-
+    <!-- <script src="https://kit.fontawesome.com/7e9bf963b8.js" crossorigin="anonymous"></script> -->
 </body>
