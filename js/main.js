@@ -37,6 +37,7 @@ function init() {
   form = document.getElementById("form");
 
   txt = document.getElementById("commandTextArea");
+  txtCopy = document.getElementById("commandJustCopyTextArea");
 
   download = document.getElementById("download");
 
@@ -77,11 +78,13 @@ async function splitImages(){
       el.parentNode.removeChild(el);
 
   txt.value = '';
+  txtCopy.value = '';
   let done = 0;
   let w, h, numOfTiles;
   const prefix = (prefixInput.value || file.name.replace(/\.\w+$/, '')).replace(/\s+/g, '_').replace(/[^\w]/g, '');
   const zip = new JSZip();
-  let str  = `\`${ prefix }\`\\n`;
+  let str  = `\`${prefix}\`\\n`;
+  let copyStr = '';
   const startTime = Date.now();
 
   let img = new Image();
@@ -117,11 +120,13 @@ async function splitImages(){
 
               ctx.clearRect(0, 0, tileSize, tileSize);
               str += `:${ prefix }_${ -x }_${ -y }:`;
+              copyStr += `:${ prefix }_${ -x }_${ -y }:`;
               progress.innerText = `Progress: ${ ++done }/${ numOfTiles }`;
           }
 
           previewDiv.appendChild(row);
           str += '\\n';
+          copyStr += '\n';
       }
       res();
     })
@@ -131,6 +136,7 @@ async function splitImages(){
   progress.innerText = `Progress: ${ numOfTiles }/${ numOfTiles }`;
 
   txt.value += str;
+  txtCopy.value += copyStr;
 
   zip.file('emojis.txt', str);
   currentZip = await zip.generateAsync({ type: 'blob' });

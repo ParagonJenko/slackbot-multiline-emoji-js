@@ -129,8 +129,18 @@
 
     <!-- Textarea -->
     <div class="box m-6">
-        <p> Copy this to display the emojis after you've finished uploading them. </p>
-        <textarea id="commandTextArea" readonly class="textarea"></textarea>
+        
+        <div class="columns">
+            <div class="column is-three-quarters">
+                <p> Copy this to add to Slackbot. </p>
+                <textarea id="commandTextArea" readonly class="textarea"></textarea>
+            </div>
+            <div class="column">
+                <p> Copy this to paste manually. </p>
+                <textarea id="commandJustCopyTextArea" readonly class="textarea"></textarea>
+            </div>
+        </div>
+         
     </div>
 
     <footer id="footer" class="footer">
