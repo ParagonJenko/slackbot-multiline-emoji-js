@@ -4,6 +4,10 @@ A tool that splits an image into square files - unlike the predecessor by [RuyiL
 
 Upload an image, select your squares and it will save the squares into a zip file.
 
+## Example
+
+![Example of the website](img/bigmoji-creator.png)
+
 ## Future Ideas
 
 I'd like to refactor the actual splitting code, it's messy and taken from another persons work to fit my use case.
