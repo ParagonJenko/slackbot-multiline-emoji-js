@@ -1,27 +1,15 @@
 # A small Javascript website that allows you to easily create multiline Slackbot emojis.
 
-_This was originally attempted to be built in Python but unfortunately the library didn't work_
+A tool that splits an image into square files - unlike the predecessor by [RuyiLi](https://github.com/RuyiLi/image-splitter) this does not support gifs at this time.
 
-## How do I use this?
+Upload an image, select your squares and it will save the squares into a zip file.
 
-See [the GitHub pages](https://paragonjenko.github.io/slackbot-multiline-emoji-js/)
+## Future Ideas
 
-## The Project:
+I'd like to refactor the actual splitting code, it's messy and taken from another persons work to fit my use case.
 
-To use the open source [image-splitter](https://github.com/RuyiLi/image-splitter) Javascript library to split the image, and produce a string to add to Slack along with the emojis!
+### Librares Used
 
-### The hurdles:
-
-The library is hardcoded to be set to pixels for the image, whereas the use case for my project will be the amount of squares they want the emoji to be.
-
-I couldn't understand it enough in the timeframe I wanted to build my MVP so I've put that to the side until I can refactor the code.
-
-### My Proposed Solution.
-
-I just need a really basic way to display the string - not to pull the image.
-
-Therefore I've built this to display a 2x2 grid that you can copy into Slackbot.
-
-### To Do List:
-
-1. Refactor the library to allow for entering by squares - not by pixels.
+- Image Splitter (by pixels) by RuyiLi: https://github.com/RuyiLi/image-splitter
+- FileSaver by eligrey: https://github.com/eligrey/FileSaver.js/
+- JSZip by Stuk: https://stuk.github.io/jszip/
