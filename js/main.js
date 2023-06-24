@@ -12,6 +12,7 @@ const VALID_EXTENSIONS = [
 
 let fileUpload, squares, prefix, fileName, txt, progress, numOfTiles;
 let previewDiv, prev;
+let download;
 
 const section = document.createElement('canvas');
 const ctx = section.getContext('2d');
@@ -37,6 +38,8 @@ function init() {
 
   txt = document.getElementById("commandTextArea");
 
+  download = document.getElementById("download");
+
   form.addEventListener('submit', e => e.preventDefault());
   addEventListeners();
 }
@@ -47,6 +50,10 @@ const isValidFile = (file) => !!file && VALID_EXTENSIONS.some(ext => file.name.e
 function addEventListeners () {
     form.addEventListener('submit', splitImages);
     fileUpload.addEventListener('change', handleFileChange);
+}
+
+function save () {
+    saveAs(currentZip, 'emojis.zip');
 }
 
 function handleFileChange () {
@@ -68,10 +75,13 @@ async function splitImages(){
   for (const el of document.querySelectorAll('div.imageRow'))
       el.parentNode.removeChild(el);
 
+  txt.value = '';
   let done = 0;
   let w, h, numOfTiles;
   const prefix = (prefixInput.value || file.name.replace(/\.\w+$/, '')).replace(/\s+/g, '_').replace(/[^\w]/g, '');
+  const zip = new JSZip();
   let str  = `\`${ prefix }\`\\n`;
+  
 
   let img = new Image();
   img.src= URL.createObjectURL(file); 
@@ -96,6 +106,8 @@ async function splitImages(){
               ctx.drawImage(img, x * tileSize, y * tileSize);
               const blob = await toBlob(section);
 
+              zip.file(`${ prefix }_${ -x }_${ -y }.png`, blob);
+
               const preview = document.createElement('img');
               // preview.classList.add('image');
               preview.src = URL.createObjectURL(blob);
@@ -118,7 +130,14 @@ async function splitImages(){
 
   txt.value += str;
 
+  zip.file('emojis.txt', str);
+  currentZip = await zip.generateAsync({ type: 'blob' });
+
+  download.removeAttribute("disabled", "")
   submit.value = 'Split';
+
+  download.removeEventListener('click', save);
+  download.addEventListener('click', save);
 
   addEventListeners();
 }

@@ -19,13 +19,14 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
 
     <!-- Scripts -->
-
+    <script type="text/javascript" src="js/filesaver.js"></script>
+    <script type="text/javascript" src="js/jszip.min.js"></script>
     <script type="text/javascript" src="js/main.js"></script>
 </head>
 
 <body>
 
-    <div class="columns is-centered">
+    <div class="columns is-centered pt-5">
         <div class="column is-half">
             <div class="card p-6">
                 <h1 class="title is-1"> Image Splitter </h1>
@@ -96,7 +97,7 @@
         <!-- Download -->
         <div class="column">
             <div class="box">
-                <a class="button is-light"> Download </a>
+                <a class="button is-primary" id="download" disabled> Download </a>
                 <strong></strong>
                 <p id="download-progress" class="subtitle is-6"></p>
             </div>
@@ -104,12 +105,11 @@
 
     </div>
 
+    <!-- Textarea -->
     <div class="box m-6">
         <p> Copy this to display the emojis after you've finished uploading them. </p>
         <textarea id="commandTextArea" readonly class="textarea"></textarea>
     </div>
-
-    
 
     <div id="footer" class="footer">
         <div class="content has-text-centered">
@@ -128,5 +128,5 @@
         </div>
     </div>
 
-    <!-- <script src="https://kit.fontawesome.com/7e9bf963b8.js" crossorigin="anonymous"></script> -->
+    <script src="https://kit.fontawesome.com/7e9bf963b8.js" crossorigin="anonymous"></script>
 </body>
