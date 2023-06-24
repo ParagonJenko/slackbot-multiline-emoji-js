@@ -6,3 +6,24 @@
     margin: 0 !important;
     padding: 0 !important;
 }
+
+body {
+    background-color: #023047;
+}
+
+.footer {
+    background-color: #00172E;
+    
+}
+
+footer div h4, footer div h5, footer div p {
+  color: #fff !important;   
+}
+
+footer div a {
+    color: #666666;
+}
+
+.box {
+    background-color: #CCCCCC;
+}

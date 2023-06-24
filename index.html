@@ -14,9 +14,8 @@
     <meta property='og:url' content='https://paragonjenko.github.io/slackbot-multiline-emoji-js/'>
     <meta charset="utf-8">
 
-    <!-- Stylesheets -->
-    <link href="styles.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <link href="styles.css" rel="stylesheet">
 
     <!-- Scripts -->
     <script type="text/javascript" src="js/filesaver.js"></script>
@@ -28,7 +27,7 @@
 
     <div class="columns is-centered pt-5">
         <div class="column is-half">
-            <div class="card p-6">
+            <div class="box p-6">
                 <h1 class="title is-1"> Image Splitter </h1>
                 <p class="subtitle is-5"> A small tool to split images into square tiles, like large Slack emojis. </p>
             </div>
@@ -87,7 +86,7 @@
         <!-- Preview -->
         <div class="column">
             <div class="box">
-                <p>Preview:</p>
+                <p><strong>Preview:</strong></p>
                 <div id="preview-box">
                     <div id="preview-div"></div>
                 </div>
@@ -110,7 +109,7 @@
 
             <div class="box">
                 <div class="px-5">
-                    <h4 class="title is-5">How do I get my own bigmojis?:</h4>
+                    <h4 class="title is-5">How do I get my own bigmojis:</h4>
                     <ol>
                         <li>Upload your emoji - this has to be an image!</li>
                         <li>Choose how many squares horizontally you want it to be!</li>
@@ -134,7 +133,7 @@
         <textarea id="commandTextArea" readonly class="textarea"></textarea>
     </div>
 
-    <div id="footer" class="footer">
+    <footer id="footer" class="footer">
         <div class="content has-text-centered">
             <h4>
                 Image Splitter created by
@@ -149,7 +148,7 @@
                 <p class="subtitle is-6"><em>And this was adapted from <a href="https://github.com/RuyiLi/image-splitter">RuyiLi's Image Splitter</a></em></p>
             </h5>
         </div>
-    </div>
+    </footer>
 
     <script src="https://kit.fontawesome.com/7e9bf963b8.js" crossorigin="anonymous"></script>
 </body>
