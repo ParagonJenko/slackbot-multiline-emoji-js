@@ -27,6 +27,11 @@ function init() {
 
   fileUpload = document.getElementById("file-upload");
   horizontalSquares = document.getElementById("squares");
+
+  if(horizontalSquares.value > 10){
+    return;
+  }
+
   prefixInput = document.getElementById("prefix");
   fileName = document.getElementById("file-name");
   progress = document.getElementById("download-progress");
