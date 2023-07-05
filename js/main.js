@@ -49,6 +49,8 @@ function init() {
 
   timeTaken = document.getElementById("time-taken");
 
+  delayInput = document.getElementById("delay");
+
   form.addEventListener('submit', e => e.preventDefault());
   addEventListeners();
 }
@@ -109,12 +111,14 @@ async function splitImages(){
         throw err;
     }
 
-    const delay = + 1 + 20;
+    const delay = +delayInput + 20;
 
     const img = frames[ 0 ].frameInfo;
     w = horizontalSquares.value;
     h = horizontalSquares.value;
     numOfTiles = w * h;
+
+    const imgWidth = img.width;
 
     const previewSize = prev.offsetWidth / size;
 
@@ -130,14 +134,14 @@ async function splitImages(){
                 workerScript: 'js/gif/gif.worker.js'
             });
 
-            ctx.clearRect(0, 0, size, size);
-            ctx.fillRect(0, 0, size, size);
+            ctx.clearRect(0, 0, imgWidth, imgWidth);
+            ctx.fillRect(0, 0, imgWidth, imgWidth);
 
             for (const image of frames) {
                 if (image instanceof HTMLElement) {
-                    ctx.drawImage(image, x * size, y * size);
+                    ctx.drawImage(image, x * imgWidth, y * imgWidth);
                 } else {
-                    ctx.drawImage(image.getImage(), x * size, y * size);
+                    ctx.drawImage(image.getImage(), x * imgWidth, y * imgWidth);
                 }
 
                 gif.addFrame(section, { copy: true, delay });
