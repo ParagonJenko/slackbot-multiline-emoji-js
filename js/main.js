@@ -117,7 +117,7 @@ async function splitImages(){
     w = horizontalSquares.value;
     h = horizontalSquares.value;
     numOfTiles = w * h;
-    tileSize = img.height / size;
+    tileSize = Math.ceil(img.height / size);
 
     const previewSize = prev.offsetWidth / size;
 
