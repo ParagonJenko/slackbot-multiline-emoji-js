@@ -94,6 +94,7 @@ async function splitImages(){
   let str  = `\`${prefix}\`\\n`;
   let copyStr = '';
   const startTime = Date.now();
+  section.width = section.height = size;
 
   if(file.name.endsWith('.gif')) {
     console.log(".gif");
@@ -195,7 +196,7 @@ async function splitImages(){
       numOfTiles = w * h;
       tileSize = img.height / size;
 
-      section.width = section.height = img.height / size;
+      // section.width = section.height = img.height / size;
 
       const previewSize = prev.offsetWidth / size;
 
