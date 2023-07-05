@@ -117,8 +117,7 @@ async function splitImages(){
     w = horizontalSquares.value;
     h = horizontalSquares.value;
     numOfTiles = w * h;
-
-    const iconSize = img.width / size;
+    tileSize = img.height / size;
 
     const previewSize = prev.offsetWidth / size;
 
@@ -134,14 +133,14 @@ async function splitImages(){
                 workerScript: 'js/gif/gif.worker.js'
             });
 
-            ctx.clearRect(0, 0, iconSize, iconSize);
-            ctx.fillRect(0, 0, iconSize, iconSize);
+            ctx.clearRect(0, 0, tileSize, tileSize);
+            ctx.fillRect(0, 0, tileSize, tileSize);
 
             for (const image of frames) {
                 if (image instanceof HTMLElement) {
-                    ctx.drawImage(image, x * iconSize, y * iconSize);
+                    ctx.drawImage(image, x * tileSize, y * tileSize);
                 } else {
-                    ctx.drawImage(image.getImage(), x * iconSize, y * iconSize);
+                    ctx.drawImage(image.getImage(), x * tileSize, y * tileSize);
                 }
 
                 gif.addFrame(section, { copy: true, delay });
