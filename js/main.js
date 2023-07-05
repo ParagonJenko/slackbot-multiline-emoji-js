@@ -11,7 +11,7 @@ const VALID_EXTENSIONS = [
   '.webp'
 ]
 
-let fileUpload, squares, prefix, fileName, txt, progress, numOfTiles;
+let fileUpload, delayInput, squares, prefix, fileName, txt, progress, numOfTiles;
 let previewDiv, prev;
 let download, timeTaken;
 
@@ -119,7 +119,6 @@ async function splitImages(){
     numOfTiles = w * h;
     tileSize = Math.ceil(img.height / size);
     section.width = section.height = img.height / size;
-
 
     const previewSize = prev.offsetWidth / size;
 
