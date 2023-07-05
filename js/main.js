@@ -96,7 +96,7 @@ async function splitImages(){
   const startTime = Date.now();
 
   if(file.name.endsWith('.gif')) {
-    alert("gif");
+    console.log(".gif");
     // Is the image a gif?
 
     try {
@@ -118,7 +118,7 @@ async function splitImages(){
     h = horizontalSquares.value;
     numOfTiles = w * h;
 
-    const imgWidth = img.width;
+    const iconSize = img.width / numOfTiles;
 
     const previewSize = prev.offsetWidth / size;
 
@@ -134,14 +134,14 @@ async function splitImages(){
                 workerScript: 'js/gif/gif.worker.js'
             });
 
-            ctx.clearRect(0, 0, imgWidth, imgWidth);
-            ctx.fillRect(0, 0, imgWidth, imgWidth);
+            ctx.clearRect(0, 0, iconSize, iconSize);
+            ctx.fillRect(0, 0, iconSize, iconSize);
 
             for (const image of frames) {
                 if (image instanceof HTMLElement) {
-                    ctx.drawImage(image, x * imgWidth, y * imgWidth);
+                    ctx.drawImage(image, x * iconSize, y * iconSize);
                 } else {
-                    ctx.drawImage(image.getImage(), x * imgWidth, y * imgWidth);
+                    ctx.drawImage(image.getImage(), x * iconSize, y * iconSize);
                 }
 
                 gif.addFrame(section, { copy: true, delay });
