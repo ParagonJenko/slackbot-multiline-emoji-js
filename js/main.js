@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', init);
 
 const VALID_EXTENSIONS = [
+  '.gif',
   '.svg',
   '.jpg',
   '.jpeg',
@@ -92,8 +93,96 @@ async function splitImages(){
   let copyStr = '';
   const startTime = Date.now();
 
-  let img = new Image();
-  img.src= URL.createObjectURL(file); 
+  if(file.name.endsWith('.gif')) {
+    alert("gif");
+    // Is the image a gif?
+
+    try {
+        // Create array of frames of the provided gif
+        var frames = await gifFrames({
+            url: URL.createObjectURL(file),
+            frames: 'all',
+            outputType: 'canvas'
+        });
+    } catch (err) {
+        progress.innerText = err;
+        throw err;
+    }
+
+    const delay = + 1 + 20;
+
+    const img = frames[ 0 ].frameInfo;
+    w = horizontalSquares.value;
+    h = horizontalSquares.value;
+    numOfTiles = w * h;
+
+    const previewSize = prev.offsetWidth / size;
+
+    const queue = [];
+    ctx.fillStyle = '#36393F';
+
+    for (let y = 0; y > -h; y--) {
+        const q = [];
+
+        for (let x = 0; x > -w; x--) {
+            // Script path relative to index.html
+            const gif = new GIF({
+                workerScript: 'js/gif/gif.worker.js'
+            });
+
+            ctx.clearRect(0, 0, size, size);
+            ctx.fillRect(0, 0, size, size);
+
+            for (const image of frames) {
+                if (image instanceof HTMLElement) {
+                    ctx.drawImage(image, x * size, y * size);
+                } else {
+                    ctx.drawImage(image.getImage(), x * size, y * size);
+                }
+
+                gif.addFrame(section, { copy: true, delay });
+            }
+
+            gif.render();
+
+            await new Promise((res, rej) => {
+                gif.on('finished', blob => {
+                    zip.file(`${ prefix }_${ -x }_${ -y }.gif`, blob);
+
+                    const preview = document.createElement('img');
+                    preview.src = URL.createObjectURL(blob);
+                    preview.width = preview.height = previewSize;
+                    q.push(preview);
+
+                    str += `:${ prefix }_${ -x }_${ -y }:`;
+                    copyStr += `:${ prefix }_${ -x }_${ -y }:`;
+                    res();
+                })
+            });
+
+            progress.innerText = `Progress: ${ ++done }/${ numOfTiles }`;
+        }
+
+        queue.push(q);
+        str += '\\n';
+        copyStr += '\n';
+    }
+
+    for (let y = 0; y < h; y++) {
+        const row = document.createElement('div');
+        row.classList.add('imageRow');
+        row.style.height = `${ previewSize }px`;
+
+        for (let x = 0; x < w; x++) {
+            row.appendChild(queue[ y ][ x ]);
+        }
+
+        previewDiv.appendChild(row);
+    }
+  }
+  else {
+    let img = new Image();
+    img.src= URL.createObjectURL(file); 
   
   await new Promise((res, rej) => {
     img.addEventListener('load', async function (){
@@ -136,6 +225,7 @@ async function splitImages(){
       res();
     })
   });
+  }
 
   submit.classList.remove('is-loading');
   progress.innerText = `Progress: ${ numOfTiles }/${ numOfTiles }`;
