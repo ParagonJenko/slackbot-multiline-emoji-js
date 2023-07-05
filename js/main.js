@@ -118,7 +118,7 @@ async function splitImages(){
     h = horizontalSquares.value;
     numOfTiles = w * h;
 
-    const iconSize = img.width / numOfTiles;
+    const iconSize = img.width / size;
 
     const previewSize = prev.offsetWidth / size;
 
