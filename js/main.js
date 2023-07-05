@@ -111,7 +111,7 @@ async function splitImages(){
         throw err;
     }
 
-    const delay = +delayInput + 20;
+    const delay = +delayInput.value + 20;
 
     const img = frames[ 0 ].frameInfo;
     w = horizontalSquares.value;
