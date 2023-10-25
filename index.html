@@ -13,11 +13,19 @@
     <meta property='og:type' content='website'>
     <meta property='og:url' content='https://paragonjenko.github.io/slackbot-multiline-emoji-js/'>
     <meta charset="utf-8">
-    
+    <link rel="stylesheet" type="text/css" href="./style.css">
   </head>
   <body>
     
-    <div id="app"></div>
+    <div>
+      <button onclick="sharptest()">CLICK ME!</button>
+
+      <div id="test1"></div>
+      <div id="test2"></div>
+      <div id="test3"></div>
+      <div id="test4"></div>
+
+    </div>
     
     <div class="columns is-centered p-5">
       <div class="column is-half">
@@ -72,12 +80,12 @@
               <input class="input" type="text" id="prefix" placeholder="Prefix...">
             </div>
     
-            <div class="field">
+            <!-- <div class="field">
               <label for="prefix">
                 Delay between .gif frames in milliseconds
               </label>
               <input class="input" type="number" id="delay" value="10" placeholder="10">
-            </div>
+            </div> -->
     
             <div class="field is-grouped is-grouped-right">
               <button class="button" type="submit" value="Split" id="submit">Split</button>
@@ -166,9 +174,11 @@
         </h5>
       </div>
     </footer>
+
+    
     
     <script src="https://kit.fontawesome.com/7e9bf963b8.js" crossorigin="anonymous"></script>
-    <script type="module" src="/main.js"></script>
+    <script type="module" src="./main.js"></script>
 
   </body>
 </html>
