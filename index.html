@@ -1,6 +1,6 @@
-<!DOCTYPE html>
-
-<head>
+<!doctype html>
+<html lang="en">
+  <head>
     <!-- SEO Tags -->
     <title> BigMoji Generator - Image Splitter for Slack </title>
     <meta charset='UTF-8'>
@@ -13,165 +13,162 @@
     <meta property='og:type' content='website'>
     <meta property='og:url' content='https://paragonjenko.github.io/slackbot-multiline-emoji-js/'>
     <meta charset="utf-8">
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
-    <link href="styles.css" rel="stylesheet">
-
-    <!-- Scripts -->
-    <script type="text/javascript" src="js/filesaver.js"></script>
-    <script type="text/javascript" src="js/jszip.min.js"></script>
-    <script type="text/javascript" src="js/main.js"></script>
-    <script type="text/javascript" src="js/gif/gif-frames.min.js"></script>
-    <script type="text/javascript" src="js/gif/gif.js"></script>
-    <script type="text/javascript" src="js/gif/gif.worker.js"></script>
-</head>
-
-<body>
-
-    <div class="columns is-centered p-5">
-        <div class="column is-half">
-            <div class="box p-6">
-                <h1 class="title is-1"> BigMoji Generator - Image Splitter </h1>
-                <p class="subtitle is-5"> A small tool to split images into square tiles, like large Slack emojis (bigmojis). </p>
-            </div>
-            
-        </div>
-    </div>
-
-
-    <!--  -->
-
-    <div class="columns mx-3">
-
-        <!-- Form -->
-        <div class="column">
-            <div class="box">
-                <form id="form">
-
-                    <div class="field">
-                        <div class="file has-name is-fullwidth">
-                            <label class="file-label" for="file-upload">
-                                <input class="file-input " type="file" id="file-upload">
-                                <span class="file-cta">
-                                    <span class="file-icon">
-                                        <i class="fas fa-upload"></i>
-                                    </span>
-                                    <span class="file-label">
-                                        Choose an emoji...
-                                    </span>
-                                </span>
-                                <span class="file-name" id="file-name">
-                                    No file selected.
-                                </span>
-                            </label>
-                        </div>
-                    </div>
-                
-                    <div class="field">
-                        <label for="squares">
-                            How many horizontal squares:
-                        </label>
-                        <input class="input" type="number" value="2" id="squares" max="10">
-                    </div>
-
-                    <div class="field">
-                        <label for="prefix">
-                            Prefix for the image files:
-                        </label>
-                        <input class="input" type="text" id="prefix" placeholder="Prefix...">
-                    </div>
-
-                    <div class="field">
-                        <label for="prefix">
-                            Delay between .gif frames in milliseconds
-                        </label>
-                        <input class="input" type="number" id="delay" value="10" placeholder="10">
-                    </div>
-                
-                    <div class="field is-grouped is-grouped-right">
-                        <button class="button" type="submit" value="Split" id="submit">Split</button>
-                    </div>
-                    
-                </form>
-            </div>
-        </div>
-
-        <!-- Preview -->
-        <div class="column">
-            <div class="box">
-                <p><strong>Preview:</strong></p>
-                <div id="preview-box">
-                    <div id="preview-div"></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Download -->
-        <div class="column">
-            <div class="box">
-                <button class="button is-primary is-responsive is-fullwidth" id="download" disabled> Download </button>
-                
-                <div class="mt-3 has-text-grey-light">
-                    <em>
-                    <p id="download-progress"></p>
-                    <p id="time-taken"></p>
-                    </em>
-                </div>
-                
-            </div>
-
-            <div class="box">
-                <div class="px-5">
-                    <h4 class="title is-5">How do I get my own bigmojis:</h4>
-                    <ol>
-                        <li>Upload your emoji - this has to be an image and a square works best!</li>
-                        <li>Choose how many squares horizontally you want it to be - this can be no more than 10!</li>
-                        <li>(Optionally) Insert a name for your emoji</li>
-                        <li>Hit the Split button!</li>
-                        <li>Download the emojis using the Download button.</li>
-                        <li>Upload these to your Slack workspace (you can go into your Slack app -> Settings -> Customise or go to {workspace}.slack.com/customize/emoji).</li>
-                        <li>Insert the command from the textbox to Slackbot (you can go into your Slack app -> Settings -> Customise or go to {workspace}.slack.com/customize/slackbot).</li>
-                        <li>Profit with great bigmojis ???</li>
-                    </ol>
-                </div>
     
-            </div>
+  </head>
+  <body>
+    
+    <div id="app"></div>
+    
+    <div class="columns is-centered p-5">
+      <div class="column is-half">
+        <div class="box p-6">
+          <h1 class="title is-1"> BigMoji Generator - Image Splitter </h1>
+          <p class="subtitle is-5"> A small tool to split images into square tiles, like large Slack emojis (bigmojis). </p>
         </div>
-
+    
+      </div>
     </div>
-
+    
+    
+    <!--  -->
+    
+    <div class="columns mx-3">
+    
+      <!-- Form -->
+      <div class="column">
+        <div class="box">
+          <form id="form">
+    
+            <div class="field">
+              <div class="file has-name is-fullwidth">
+                <label class="file-label" for="file-upload">
+                  <input class="file-input " type="file" id="file-upload">
+                  <span class="file-cta">
+                    <span class="file-icon">
+                      <i class="fas fa-upload"></i>
+                    </span>
+                    <span class="file-label">
+                      Choose an emoji...
+                    </span>
+                  </span>
+                  <span class="file-name" id="file-name">
+                    No file selected.
+                  </span>
+                </label>
+              </div>
+            </div>
+    
+            <div class="field">
+              <label for="squares">
+                How many horizontal squares:
+              </label>
+              <input class="input" type="number" value="2" id="squares" max="10">
+            </div>
+    
+            <div class="field">
+              <label for="prefix">
+                Prefix for the image files:
+              </label>
+              <input class="input" type="text" id="prefix" placeholder="Prefix...">
+            </div>
+    
+            <div class="field">
+              <label for="prefix">
+                Delay between .gif frames in milliseconds
+              </label>
+              <input class="input" type="number" id="delay" value="10" placeholder="10">
+            </div>
+    
+            <div class="field is-grouped is-grouped-right">
+              <button class="button" type="submit" value="Split" id="submit">Split</button>
+            </div>
+    
+          </form>
+        </div>
+      </div>
+    
+      <!-- Preview -->
+      <div class="column">
+        <div class="box">
+          <p><strong>Preview:</strong></p>
+          <div id="preview-box">
+            <div id="preview-div"></div>
+          </div>
+        </div>
+      </div>
+    
+      <!-- Download -->
+      <div class="column">
+        <div class="box">
+          <button class="button is-primary is-responsive is-fullwidth" id="download" disabled> Download </button>
+    
+          <div class="mt-3 has-text-grey-light">
+            <em>
+              <p id="download-progress"></p>
+              <p id="time-taken"></p>
+            </em>
+          </div>
+    
+        </div>
+    
+        <div class="box">
+          <div class="px-5">
+            <h4 class="title is-5">How do I get my own bigmojis:</h4>
+            <ol>
+              <li>Upload your emoji - this has to be an image and a square works best!</li>
+              <li>Choose how many squares horizontally you want it to be - this can be no more than 10!</li>
+              <li>(Optionally) Insert a name for your emoji</li>
+              <li>Hit the Split button!</li>
+              <li>Download the emojis using the Download button.</li>
+              <li>Upload these to your Slack workspace (you can go into your Slack app -> Settings -> Customise or go to
+                {workspace}.slack.com/customize/emoji).</li>
+              <li>Insert the command from the textbox to Slackbot (you can go into your Slack app -> Settings -> Customise
+                or go to {workspace}.slack.com/customize/slackbot).</li>
+              <li>Profit with great bigmojis ???</li>
+            </ol>
+          </div>
+    
+        </div>
+      </div>
+    
+    </div>
+    
     <!-- Textarea -->
     <div class="box m-6">
-        
-        <div class="columns">
-            <div class="column is-three-quarters">
-                <p> Copy this to add to Slackbot. </p>
-                <textarea id="commandTextArea" readonly class="textarea"></textarea>
-            </div>
-            <div class="column">
-                <p> Copy this to paste manually. </p>
-                <textarea id="commandJustCopyTextArea" readonly class="textarea"></textarea>
-            </div>
+    
+      <div class="columns">
+        <div class="column is-three-quarters">
+          <p> Copy this to add to Slackbot. </p>
+          <textarea id="commandTextArea" readonly class="textarea"></textarea>
         </div>
-
+        <div class="column">
+          <p> Copy this to paste manually. </p>
+          <textarea id="commandJustCopyTextArea" readonly class="textarea"></textarea>
+        </div>
+      </div>
+    
     </div>
-
+    
     <footer id="footer" class="footer">
-        <div class="content has-text-centered">
-            <h4>
-                Image Splitter created by
-                <a href="https://alexjenkinson.com">Alex Jenkinson</a>
-            </h4>
-
-            <h5>
-                This project is open source! Click
-                <a href="https://github.com/ParagonJenko/slackbot-multiline-emoji-js">here</a>
-                to view the repository.
-
-                <p class="subtitle is-6"><em>And this was adapted from <a href="https://github.com/RuyiLi/image-splitter">RuyiLi's Image Splitter</a></em></p>
-            </h5>
-        </div>
+      <div class="content has-text-centered">
+        <h4>
+          Image Splitter created by
+          <a href="https://alexjenkinson.com">Alex Jenkinson</a>
+        </h4>
+    
+        <h5>
+          This project is open source! Click
+          <a href="https://github.com/ParagonJenko/slackbot-multiline-emoji-js">here</a>
+          to view the repository.
+    
+          <p class="subtitle is-6"><em>And this was adapted from <a href="https://github.com/RuyiLi/image-splitter">RuyiLi's
+                Image Splitter</a></em></p>
+        </h5>
+      </div>
     </footer>
-
+    
     <script src="https://kit.fontawesome.com/7e9bf963b8.js" crossorigin="anonymous"></script>
-</body>
+    <script type="module" src="/main.js"></script>
+
+  </body>
+</html>
