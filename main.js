@@ -12,14 +12,14 @@ async function prepareImage(item, m_gridSize = 2) {
         const metadata = await sharp(item).metadata();
         const gridSize = m_gridSize; // Change this to the desired grid size (e.g., 2 for a 2x2 grid)
         const images = [];
+        let textCommand = ""
         
         // Create a new instance of JSZip
         const zip = new JSZip();
 
-
-        for (let i = 1; i <= gridSize * gridSize; i++) {
-            let row = Math.floor((i - 1) / gridSize);
-            let col = (i - 1) % gridSize;
+        for (let i = 0; i < gridSize * gridSize; i++) {
+            let row = Math.floor((i) / gridSize);
+            let col = i % gridSize;
 
             const width = Math.floor(metadata.width / gridSize);
             const height = Math.floor(metadata.height / gridSize);
@@ -27,6 +27,14 @@ async function prepareImage(item, m_gridSize = 2) {
             const top = Math.floor(row * height);
 
             console.log(`Run ${i} ${item} / Left: ${left} / Top: ${top} / Width: ${width} / Height: ${height} / Col ${col} Row ${row}`)
+
+            if(col === gridSize - 1) {
+                textCommand += `:${fileName}:\\n`;
+            } else {
+                textCommand += `:${fileName}:`;
+            }
+
+            console.log(textCommand);
 
             await sharp(item)
             .extract({
@@ -44,10 +52,11 @@ async function prepareImage(item, m_gridSize = 2) {
             })
         }
 
+        zip.file("command.txt", textCommand);
          zip.generateNodeStream({ type: 'nodebuffer', streamFiles: true })
             .pipe(fs.createWriteStream(`${fileName}.zip`))
             .on('finish', () => {
-                console.log(`ZIP file saved to public/edited/${item}.zip`);
+                console.log(`ZIP file saved to ${fileName}.zip`);
             });
 
     
@@ -56,10 +65,10 @@ async function prepareImage(item, m_gridSize = 2) {
     }
 }
 
-async function testing() {
-    prepareImage(imageNames[0])
-    // prepareImage(imageNames[1])
-    // prepareImage(imageNames[2])
-}
+// async function testing() {
+//     prepareImage(imageNames[0])
+//     // prepareImage(imageNames[1])
+//     // prepareImage(imageNames[2])
+// }
 
-testing();
+// testing();
