@@ -90,6 +90,11 @@ document.addEventListener('DOMContentLoaded', () => {
     fileInput.addEventListener('change', (event) => {
         const selectedFile = event.target.files[0];
         if (selectedFile) {
+             // Check if the selected file is a GIF
+            if (selectedFile.type === 'image/gif') {
+                alert('GIF files are not supported currently. Please select a different image format.');
+                return; 
+            }
             imageUrl = URL.createObjectURL(selectedFile);
             const fileName = selectedFile.name;
             document.getElementById('file-name').textContent = fileName;
