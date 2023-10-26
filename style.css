@@ -1,20 +1,22 @@
 @import 'bulma/css/bulma.css';
+@import url('https://fonts.googleapis.com/css2?family=Playpen+Sans:wght@100;400;600&display=swap');
 
-.imageRow img {
-  border: .8px solid #c80000;
-}
-
-.imageRow {
-  margin: 0 !important;
-  padding: 0 !important;
-}
 
 body {
-  background-color: #023047;
+  background-color: #87CEEB;
+  font-family: 'Playpen Sans', cursive;
+}
+
+.title {
+  font-weight: 600;
+}
+
+.subtitle {
+  font-weight: 100;
 }
 
 .footer {
-  background-color: #00172E;
+  background-color: #FFB6C1;
 
 }
 
@@ -29,6 +31,16 @@ footer div a {
 }
 
 .box {
-  background-color: #CCCCCC;
+  background-color: #E6E6FA;
 }
 
+
+/* 
+#FFD700
+#FF6B6B
+#87CEEB
+#32CD32
+#FFB6C1
+#E6E6FA
+#98FB98 
+*/
