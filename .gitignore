@@ -27,3 +27,5 @@ public/edited/
 .vite/
 .github/
 public/
+# Local Netlify folder
+.netlify
