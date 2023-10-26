@@ -5,12 +5,10 @@ import path from 'path'
 
 const imageNames = ['public/edited/cupidburn.png', 'public/edited/braindamage.png', 'public/edited/selflove.png'];
 
-async function prepareImage(item, m_gridSize = 2) {
+async function prepareImage(item, gridSize = 2, prefix) {
     try {
-
-        const fileName = path.parse(path.basename(item)).name;
+        const fileName = prefix || path.parse(path.basename(item)).name;
         const metadata = await sharp(item).metadata();
-        const gridSize = m_gridSize; // Change this to the desired grid size (e.g., 2 for a 2x2 grid)
         const images = [];
         let textCommand = ""
         
