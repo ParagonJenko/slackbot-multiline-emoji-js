@@ -13,11 +13,6 @@
   },
   "dependencies": {
     "bulma": "^0.9.4",
-    "canvas": "^2.11.2",
-    "gifencoder": "^2.0.1",
-    "jimp": "^0.22.10",
-    "jszip": "^3.10.1",
-    "multer": "^1.4.5-lts.1",
-    "path": "^0.12.7"
+    "jszip": "^3.10.1"
   }
 }
