@@ -1,91 +1,7 @@
-import JSZip from "jszip";
+import * as imageProcessing from './imageProcessing.js';
+import { createZipFile, generateZipURL } from './fileIO.js';
+import * as utils from './utils.js';
 
-// Function to extract the file name from a URL or file name
-function getFileNameFromItem(item, prefix) {
-    return prefix || item.split('/').pop().split('.')[0];
-}
-
-// Function to create a smaller image from a grid
-async function createSmallerImages(item, gridSize, fileName) {
-    const images = [];
-    let textCommand = "";
-
-    for (let i = 0; i < gridSize * gridSize; i++) {
-        const image = await createSingleSmallerImage(item, gridSize, i);
-        images.push(image);
-
-        if (i % gridSize === gridSize - 1) {
-            textCommand += `:${fileName}:\n`;
-        } else {
-            textCommand += `:${fileName}:`;
-        }
-    }
-
-    return { images, textCommand };
-}
-
-// Function to create a single smaller image
-async function createSingleSmallerImage(item, gridSize, index) {
-    return new Promise((resolve, reject) => {
-        const img = new Image();
-        img.src = item;
-        img.onload = () => {
-            const { width, height, x, y } = calculateImageDimensions(gridSize, img, index);
-            const canvas = createCanvas(width, height);
-            const dataURL = drawImageOnCanvas(img, canvas, x, y);
-            resolve(dataURL);
-        };
-        img.onerror = reject;
-    });
-}
-
-// Function to calculate dimensions and position of a smaller image
-function calculateImageDimensions(gridSize, img, index) {
-    const width = Math.floor(img.width / gridSize);
-    const height = Math.floor(img.height / gridSize);
-    const row = Math.floor(index / gridSize);
-    const col = index % gridSize;
-    const x = Math.floor(col * width);
-    const y = Math.floor(row * height);
-    return { width, height, x, y };
-}
-
-// Function to create a canvas element
-function createCanvas(width, height) {
-    const canvas = document.createElement('canvas');
-    canvas.width = width;
-    canvas.height = height;
-    return canvas;
-}
-
-// Function to draw an image on a canvas
-function drawImageOnCanvas(img, canvas, x, y) {
-    const ctx = canvas.getContext('2d');
-    ctx.drawImage(img, -x, -y);
-    return canvas.toDataURL('image/png');
-}
-
-// Function to create a ZIP file and add images and Slackbot command
-function createZipFile(fileName, images, textCommand, gridSize) {
-    const zip = new JSZip();
-    images.forEach((data, i) => {
-        zip.file(`${fileName}-${i % gridSize}-${Math.floor(i / gridSize)}.png`, data.split(',')[1], { base64: true });
-    });
-    zip.file("command.txt", textCommand);
-    return zip;
-}
-
-// Function to generate a URL for the ZIP file
-function generateZipURL(zip) {
-    return new Promise((resolve) => {
-        zip.generateAsync({ type: 'blob' })
-            .then((blob) => {
-                resolve(URL.createObjectURL(blob));
-            });
-    });
-}
-
-// Code to handle user interactions on the web page
 document.addEventListener('DOMContentLoaded', () => {
     // Get references to HTML elements
     const uploadForm = document.getElementById('upload-form');
@@ -139,8 +55,8 @@ document.addEventListener('DOMContentLoaded', () => {
         // Disable the download button while preparing the image
         downloadButton.disabled = true;
 
-        const fileName = getFileNameFromItem(imageUrl, prefix);
-        const { images, textCommand } = await createSmallerImages(imageUrl, gridSize, fileName);
+        const fileName = utils.getFileNameFromItem(imageUrl, prefix);
+        const { images, textCommand } = await imageProcessing.createSmallerImages(imageUrl, gridSize, fileName);
         const zip = createZipFile(fileName, images, textCommand, gridSize);
         zipUrl = await generateZipURL(zip);
 
@@ -151,7 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
         drawGridLines(imageUrl, gridSize);
 
         // Generate and set the Slackbot command
-        const slackbotCommand = generateSlackbotCommand(gridSize, prefix);
+        const slackbotCommand = utils.generateSlackbotCommand(gridSize, prefix);
         commandTextArea.value = slackbotCommand;
 
          // Generate and set the Slackbot command with line breaks and without spaces
@@ -243,26 +159,7 @@ document.addEventListener('DOMContentLoaded', () => {
         };
     }
 
-    // Function to generate the Slackbot command for displaying images
-    function generateSlackbotCommand(gridSize, prefix) {
-        const fileName = prefix || 'bigmoji';
-        let command = '';
-
-        for (let i = 0; i < gridSize * gridSize; i++) {
-            if (i % gridSize === 0) {
-                command += '\\n';  // Start a new row in the Slackbot command
-            }
-
-            const col = i % gridSize;
-            const row = Math.floor(i / gridSize);
-
-            command += `:${fileName}${col}-${row}:`; // Add the image tag to the command
-        }
-
-        command += '\\n'; // Add a newline character at the end
-
-        return command;
-    }
+   
 
     // Add an event listener to clear input fields on page reload
     window.addEventListener('beforeunload', () => {
