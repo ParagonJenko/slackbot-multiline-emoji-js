@@ -14,6 +14,12 @@ function initializePage() {
     
     let imageUrl = null;
     let zipUrl = null;
+    /*
+     I feel like we could do the fileName better 
+
+     In handleFileChange() we get this from the files name itself.
+     In handleFormSubmit() we get this from the name of the item - I'm not sure if we need to anymore - maybe one to refactor!
+     */
     let fileName = "";
     
     gridSizeInput.addEventListener('input', updateGridLines);
@@ -97,8 +103,8 @@ function initializePage() {
         const img = document.createElement('img');
         img.src = imageUrl;
         previewDiv.style.position = 'relative';
-        img.style.width = '100%'; // Set the canvas width to 100%
-        img.style.height = 'auto'; // Set the canvas height to auto
+        img.style.width = '100%'; // Set the image width to 100%
+        img.style.height = 'auto'; // Set the image height to auto
         previewDiv.appendChild(img);
     }
 
