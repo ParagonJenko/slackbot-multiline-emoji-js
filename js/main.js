@@ -14,6 +14,7 @@ function initializePage() {
     
     let imageUrl = null;
     let zipUrl = null;
+    let fileName = "";
     
     gridSizeInput.addEventListener('input', updateGridLines);
     fileInput.addEventListener('change', handleFileChange);
@@ -41,7 +42,7 @@ function initializePage() {
                 return;
             }
             imageUrl = URL.createObjectURL(selectedFile);
-            const fileName = selectedFile.name;
+            fileName = selectedFile.name;
             document.getElementById('file-name').textContent = fileName;
             clearCanvas(); // Clear the canvas
             renderPreview(imageUrl);
@@ -60,7 +61,7 @@ function initializePage() {
         const prefix = prefixInput.value;
         downloadButton.disabled = true;
 
-        const fileName = utils.getFileNameFromItem(imageUrl, prefix);
+        fileName = utils.getFileNameFromItem(fileName, prefix);
         imageProcessing.createSmallerImages(imageUrl, gridSize, fileName)
             .then(({ images, textCommand }) => {
                 const zip = createZipFile(fileName, images, textCommand, gridSize);
