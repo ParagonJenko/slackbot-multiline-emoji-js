@@ -11,7 +11,8 @@ function initializePage() {
     const prefixInput = document.getElementById('prefix');
     const downloadButton = document.getElementById('download');
     const commandTextArea = document.getElementById('commandTextArea');
-    
+    const commandJustCopyTextArea = document.getElementById('commandJustCopyTextArea');
+
     let imageUrl = null;
     let zipUrl = null;
     /*
@@ -79,8 +80,8 @@ function initializePage() {
                 clearCanvas(); // Clear the canvas
                 renderPreview(imageUrl);
                 drawGridLines(imageUrl, gridSize);
-                const slackbotCommand = utils.generateSlackbotCommand(gridSize, prefix);
-                commandTextArea.value = slackbotCommand;
+                commandTextArea.value = utils.generateSlackbotCommand(gridSize, fileName);
+                commandJustCopyTextArea.value = utils.generateSlackbotCommand(gridSize, fileName, true);
             });
     }
 
@@ -156,6 +157,7 @@ function initializePage() {
         gridSizeInput.value = '2';
         prefixInput.value = '';
         commandTextArea.value = '';
+        commandJustCopyTextArea.value = '';
     }
 
     function clearCanvas() {

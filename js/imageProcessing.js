@@ -1,18 +1,16 @@
+import { generateSlackbotCommand } from "./utils";
+
 // Function to create a smaller image from a grid
 export async function createSmallerImages(item, gridSize, fileName) {
     const images = [];
-    let textCommand = "";
+    let textCommand =  generateSlackbotCommand(gridSize, fileName);
 
     for (let i = 0; i < gridSize * gridSize; i++) {
         const image = await createSingleSmallerImage(item, gridSize, i);
         images.push(image);
-
-        if (i % gridSize === gridSize - 1) {
-            textCommand += `:${fileName}:\n`;
-        } else {
-            textCommand += `:${fileName}:`;
-        }
     }
+
+    console.log(textCommand);
 
     return { images, textCommand };
 }
