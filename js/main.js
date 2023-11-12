@@ -89,7 +89,7 @@ function initializePage() {
         if (zipUrl) {
             const downloadLink = document.createElement('a');
             downloadLink.href = zipUrl;
-            downloadLink.download = `${prefixInput.value || 'bigmoji'}.zip`;
+            downloadLink.download = `${fileName || 'bigmoji'}.zip`;
             downloadLink.style.display = 'none';
             document.body.appendChild(downloadLink);
             downloadLink.click();

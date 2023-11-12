@@ -10,7 +10,7 @@ export async function createSmallerImages(item, gridSize, fileName) {
         images.push(image);
     }
 
-    console.log(textCommand);
+    // console.log(textCommand);
 
     return { images, textCommand };
 }

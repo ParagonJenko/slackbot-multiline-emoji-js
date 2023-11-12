@@ -1,4 +1,4 @@
-import JSZip from "jszip";
+import JSZip, { file } from "jszip";
 
 // Function to create a ZIP file and add images and Slackbot command
 export function createZipFile(fileName, images, textCommand, gridSize) {
