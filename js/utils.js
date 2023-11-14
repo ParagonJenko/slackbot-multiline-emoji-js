@@ -1,4 +1,10 @@
- // Function to generate the Slackbot command for displaying images
+/**
+ * Generates a Slackbot command for displaying images in a grid.
+ * @param {number} gridSize - The number of rows and columns in the grid.
+ * @param {string} prefix - The prefix to be added to the image tags.
+ * @param {boolean} [copy=false] - Indicates whether the command is for copying (true) or displaying (false).
+ * @returns {string} - The generated Slackbot command.
+ */
 export function generateSlackbotCommand(gridSize, prefix, copy = false) {
     const fileName = prefix || 'bigmoji';
     let command = '';
@@ -23,7 +29,13 @@ export function generateSlackbotCommand(gridSize, prefix, copy = false) {
 
     return command.trim();
 }
-    // Function to extract the file name from a URL or file name
+
+/**
+ * Extracts the file name from a URL or file name.
+ * @param {string} item - The URL or file name from which to extract the file name.
+ * @param {string} prefix - The prefix to be added to the file name (if not present, it defaults to the file name).
+ * @returns {string} - The extracted or modified file name.
+ */
 export function getFileNameFromItem(item, prefix) {
     return prefix || item.split('/').pop().split('.')[0];
 }
