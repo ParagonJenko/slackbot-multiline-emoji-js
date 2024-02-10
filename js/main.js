@@ -9,8 +9,6 @@ document.addEventListener('DOMContentLoaded', initializePage);
 
 // Function to initialize the page
 function initializePage() {
-    console.log("init");
-
     // Get references to various HTML elements
     const uploadForm = document.getElementById('upload-form');
     const fileInput = document.getElementById('file-upload');
@@ -19,6 +17,7 @@ function initializePage() {
     const downloadButton = document.getElementById('download');
     const commandTextArea = document.getElementById('commandTextArea');
     const commandJustCopyTextArea = document.getElementById('commandJustCopyTextArea');
+    const cropperImage = document.getElementById('imageCropper');
     
     let fileInputText =  document.getElementById('file-name');
     let imageUrl = null; // Variable to store the URL of the selected image
@@ -62,7 +61,6 @@ function initializePage() {
         if (fileInput.files.length === 0) {
             alert("No file selected.");
         } else {
-            console.log(isSquareImage);
             if(!isSquareImage){
                 imageCropper.src = imageUrl;
                 initaliseCropper();
@@ -182,12 +180,14 @@ function initializePage() {
      * Helper function: Clears input fields on form reload
      */
     function clearInputFields() {
-        fileInput.value = '';
+        fileInput.value = null;
         gridSizeInput.value = '2';
         prefixInput.value = '';
         commandTextArea.value = '';
         commandJustCopyTextArea.value = '';
-        fileInputText = '';
+        fileInputText.innerHTML = 'No file selected.';
+        cropperImage.src = null;
+        URL.revokeObjectURL(imageUrl)
     }
 
     /**
@@ -210,19 +210,33 @@ function initializePage() {
      * Initialises the cropper library and overwrites the uploaded file with the cropped version
      */
     function initaliseCropper() {
-    const image = document.getElementById('imageCropper');
-    const cropper = new Cropper(image, {
-        aspectRatio: 1 / 1,
-        viewMode: 3,
-        crop(event) {
-        },
-    });
+        
+        
 
-    stepImageCropButton.onclick = function () {
-        cropper.getCroppedCanvas({width: 256, height: 256}).toBlob(blob => {
-            imageUrl = URL.createObjectURL(blob);
-            nextItem(stepsArray[1], stepsArray[2])
-            })
+        const cropper = new Cropper(cropperImage, {
+            aspectRatio: 1 / 1,
+            viewMode: 3,
+            crop(event) {
+            },
+        });
+
+        stepImageCropButton.onclick = function () {
+            if (cropper) {
+                cropper.getCroppedCanvas({width: 256, height: 256}).toBlob(blob => {
+                    if (blob) {
+                        if (imageUrl) {
+                            URL.revokeObjectURL(imageUrl);
+                        }
+                        imageUrl = URL.createObjectURL(blob);
+                        cropper.destroy();
+                        nextItem(stepsArray[1], stepsArray[2]);
+                    } else {
+                        console.error("Failed to crop image.");
+                    }
+                });
+            } else {
+                console.error("Cropper instance is not initialized.");
+            }
         }
     }
 
