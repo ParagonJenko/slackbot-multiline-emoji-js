@@ -1,6 +1,7 @@
 @import 'bulma/css/bulma.css';
 @import url('https://fonts.googleapis.com/css2?family=Playpen+Sans:wght@100;400;600&display=swap');
 
+
 body, button {
   background-color: #87CEEB;
   font-family: 'Playpen Sans', cursive;
@@ -33,6 +34,15 @@ footer div a {
   background-color: #E6E6FA;
 }
 
+body {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+.wrapper {
+  flex: 1;
+}
 
 /* 
 #FFD700
