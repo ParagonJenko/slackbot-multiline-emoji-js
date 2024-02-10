@@ -2,12 +2,15 @@
 import * as imageProcessing from './imageProcessing.js';
 import { createZipFile, generateZipURL } from './fileIO.js';
 import * as utils from './utils.js';
+import Cropper from 'cropperjs';
 
 // Event listener for when the DOM has finished loading
 document.addEventListener('DOMContentLoaded', initializePage);
 
 // Function to initialize the page
 function initializePage() {
+    console.log("init");
+
     // Get references to various HTML elements
     const uploadForm = document.getElementById('upload-form');
     const fileInput = document.getElementById('file-upload');
@@ -16,118 +19,123 @@ function initializePage() {
     const downloadButton = document.getElementById('download');
     const commandTextArea = document.getElementById('commandTextArea');
     const commandJustCopyTextArea = document.getElementById('commandJustCopyTextArea');
-
+    
+    let fileInputText =  document.getElementById('file-name');
     let imageUrl = null; // Variable to store the URL of the selected image
     let zipUrl = null; // Variable to store the URL of the generated zip file
+    let isSquareImage = null;
 
     // Variable to store the file name (initialized as an empty string)
     let fileName = "";
+    let fileNameWithoutExtension = "";
+    let fileNameChosenOutput = "";
 
     // Event listeners for various input elements
-    gridSizeInput.addEventListener('input', updateGridLines);
-    fileInput.addEventListener('change', handleFileChange);
-    uploadForm.addEventListener('submit', handleFormSubmit);
-    downloadButton.addEventListener('click', downloadZip);
 
     downloadButton.disabled = true; // Disable download button initially
+    fileInput.addEventListener('change', processUploadedFile)
+    downloadButton.addEventListener('click', downloadZip);
+    /*
 
-    // Function to update grid lines based on user input
-    function updateGridLines() {
-        const gridSize = parseInt(gridSizeInput.value);
-        if (imageUrl) {
-            clearCanvas(); // Clear the canvas
-            renderPreview(imageUrl);
-            drawGridLines(imageUrl, gridSize);
+    Flow:
+    - User uploads an image
+    - If it is a square set that as image
+    - If it is not a square show crop page and set result as image
+    - 
+    */
+
+    /* 
+    Multi-step Form
+    */
+    const stepsArray = [
+        'stepImageUpload', 'stepImageCrop', 'stepGridSize', 'stepPrefix', 'stepPreviewDownload'
+    ];
+
+    let stepImageUploadButton = document.getElementById('stepImageUploadButton')
+    let stepImageCropButton = document.getElementById('stepImageCropButton')
+    let stepGridSizeButton = document.getElementById('stepGridSizeButton')
+    let stepPrefixButton = document.getElementById('stepPrefixButton')
+    let stepPreviewDownloadButton = document.getElementById('stepPreviewDownloadButton')
+    let resetFormButton = document.getElementById('resetFormButton');
+
+    stepImageUploadButton.onclick = function () {
+        if (fileInput.files.length === 0) {
+            alert("No file selected.");
+        } else {
+            console.log(isSquareImage);
+            if(!isSquareImage){
+                imageCropper.src = imageUrl;
+                initaliseCropper();
+                nextItem(stepsArray[0], stepsArray[1]);
+            }
+            else {
+                nextItem(stepsArray[0], stepsArray[2]);
+            }
         }
     }
-    
+    stepGridSizeButton.onclick = function () {
+        nextItem(stepsArray[2], stepsArray[3])
+    }
+    stepPrefixButton.onclick = function () {
+        nextItem(stepsArray[3], stepsArray[4])
+        displayPreview();
+        processDownload();
+    }
+    resetFormButton.onclick = function () {
+        clearInputFields();
+        nextItem(stepsArray[4], stepsArray[0])
+    }
+
+    function nextItem(current, next){
+        document.getElementById(current).style.display = 'none';
+        document.getElementById(next).style.display = 'block';
+    }
+
     /**
-     * Form submission handler that processes the selected image and generates a zip file.
-     * @param {Event} event - The form submission event.
+     * A function to process the uploaded file
+     * @param {*} event 
+     * @returns null
      */
-    function handleFileChange(event) {
+    function processUploadedFile(event){
         const selectedFile = event.target.files[0];
+
+        // Verify the file exists, that the file is an image and that it isn't a gif
         if (selectedFile) {
-            if (selectedFile.type === 'image/gif') {
+            if (!selectedFile.type.startsWith('image/')) {
+                alert('Only image files are supported. Please select a different file.');
+                return;
+            }
+            else if (selectedFile.type === 'image/gif') {
                 alert('GIF files are not supported currently. Please select a different image format.');
                 return;
             }
-            imageUrl = URL.createObjectURL(selectedFile);
-            fileName = selectedFile.name;
-            document.getElementById('file-name').textContent = fileName;
-            clearCanvas(); // Clear the canvas
-            renderPreview(imageUrl);
         }
+
+        // Change file name text
+        fileName = selectedFile.name;
+        fileInputText.textContent = fileName;
+        fileNameWithoutExtension = fileName.split('.').slice(0, -1).join('.')
+
+        imageUrl = URL.createObjectURL(selectedFile);
+        isSquare();
     }
+    /* 
+    End of Multi-step Form
+    */
 
     /**
-     * Handles changes in the selected file by updating the displayed image preview.
-     * @param {Event} event - The change event on the file input.
+     * Displays the preview image
      */
-    function handleFormSubmit(event) {
-        event.preventDefault();
-        if (!imageUrl) {
-            alert('Please select an image to split.');
-            return;
-        }
-        const gridSize = parseInt(gridSizeInput.value);
-        const prefix = prefixInput.value;
-        downloadButton.disabled = true;
-
-        fileName = utils.getFileNameFromItem(fileName, prefix);
-
-        // Perform image processing and generate zip file
-        imageProcessing.createSmallerImages(imageUrl, gridSize, fileName)
-            .then(({ images, textCommand }) => {
-                const zip = createZipFile(fileName, images, textCommand, gridSize);
-                return generateZipURL(zip);
-            })
-            .then((url) => {
-                zipUrl = url;
-                downloadButton.disabled = false;
-                clearCanvas(); // Clear the canvas
-                renderPreview(imageUrl);
-                drawGridLines(imageUrl, gridSize);
-                commandTextArea.value = utils.generateSlackbotCommand(gridSize, fileName);
-                commandJustCopyTextArea.value = utils.generateSlackbotCommand(gridSize, fileName, true);
-            });
-    }
-
-    // Function to handle downloading the generated zip file
-    function downloadZip() {
-        if (zipUrl) {
-            const downloadLink = document.createElement('a');
-            downloadLink.href = zipUrl;
-            downloadLink.download = `${fileName || 'bigmoji'}.zip`;
-            downloadLink.style.display = 'none';
-            document.body.appendChild(downloadLink);
-            downloadLink.click();
-            document.body.removeChild(downloadLink);
-        }
-    }
-
-    /**
-     * Renders a preview of the selected image in the designated HTML element.
-     * @param {string} imageUrl - The URL of the selected image.
-     */
-    function renderPreview(imageUrl) {
+    function displayPreview(){
         const previewDiv = document.getElementById('preview-div');
         previewDiv.innerHTML = '';
-        const img = document.createElement('img');
-        img.src = imageUrl;
+        const imgElement = document.createElement('img');
+        imgElement.src = imageUrl;
         previewDiv.style.position = 'relative';
-        img.style.width = '100%'; // Set the image width to 100%
-        img.style.height = 'auto'; // Set the image height to auto
-        previewDiv.appendChild(img);
-    }
+        imgElement.style.width = '100%'; // Set the image width to 100%
+        imgElement.style.height = 'auto'; // Set the image height to auto
+        previewDiv.appendChild(imgElement);
 
-    /**
-     * Draws grid lines on the image preview canvas.
-     * @param {string} imageUrl - The URL of the selected image.
-     * @param {number} gridSize - The number of grid lines to draw.
-     */
-    function drawGridLines(imageUrl, gridSize) {
-        const previewDiv = document.getElementById('preview-div');
         const containerDiv = document.createElement('div');
         containerDiv.style.position = 'relative';
 
@@ -138,6 +146,7 @@ function initializePage() {
         const context = canvas.getContext('2d');
 
         const img = new Image();
+        const gridSize = parseInt(gridSizeInput.value);
         img.src = imageUrl;
 
         // Draw the image on the canvas
@@ -169,21 +178,88 @@ function initializePage() {
         };
     }
 
-    // Event listener to clear input fields before unloading the page
-    window.addEventListener('beforeunload', clearInputFields);
-
-    // Function to clear input fields
+    /**
+     * Helper function: Clears input fields on form reload
+     */
     function clearInputFields() {
         fileInput.value = '';
         gridSizeInput.value = '2';
         prefixInput.value = '';
         commandTextArea.value = '';
         commandJustCopyTextArea.value = '';
+        fileInputText = '';
     }
 
-    // Function to clear the image preview canvas
-    function clearCanvas() {
-        const previewDiv = document.getElementById('preview-div');
-        previewDiv.innerHTML = '';
+    /**
+     * Checks if the image is square
+     * @returns boolean 
+     */
+    function isSquare() {
+        var img = new Image();
+        img.src = imageUrl;
+        img.onload = function() {
+            if (img.naturalWidth === img.naturalHeight) {
+                isSquareImage = true;
+            } else {
+                isSquareImage = false;
+            }
+        };
+    }
+
+    /**
+     * Initialises the cropper library and overwrites the uploaded file with the cropped version
+     */
+    function initaliseCropper() {
+    const image = document.getElementById('imageCropper');
+    const cropper = new Cropper(image, {
+        aspectRatio: 1 / 1,
+        viewMode: 3,
+        crop(event) {
+        },
+    });
+
+    stepImageCropButton.onclick = function () {
+        cropper.getCroppedCanvas({width: 256, height: 256}).toBlob(blob => {
+            imageUrl = URL.createObjectURL(blob);
+            nextItem(stepsArray[1], stepsArray[2])
+            })
+        }
+    }
+
+    /**
+     * Processes the download and appends this to the download button
+     */
+    function processDownload() {
+        const gridSize = parseInt(gridSizeInput.value);
+        fileNameChosenOutput = prefixInput.value.trim() || fileNameWithoutExtension
+        downloadButton.disabled = true;
+
+        // Perform image processing and generate zip file
+        imageProcessing.createSmallerImages(imageUrl, gridSize, fileName)
+            .then(({ images, textCommand }) => {
+                const zip = createZipFile(fileNameChosenOutput, images, textCommand, gridSize);
+                return generateZipURL(zip);
+            })
+            .then((url) => {
+                zipUrl = url;
+                downloadButton.disabled = false;
+                commandTextArea.value = utils.generateSlackbotCommand(gridSize, fileNameChosenOutput);
+                commandJustCopyTextArea.value = utils.generateSlackbotCommand(gridSize, fileNameChosenOutput, true);
+            });
+    }
+
+    /**
+     * Processes the downloading of the zip file
+     */
+    function downloadZip() {
+        if (zipUrl) {
+            const downloadLink = document.createElement('a');
+            downloadLink.href = zipUrl;
+            downloadLink.download = `${fileNameChosenOutput || 'bigmoji'}.zip`;
+            downloadLink.style.display = 'none';
+            document.body.appendChild(downloadLink);
+            downloadLink.click();
+            document.body.removeChild(downloadLink);
+        }
     }
 }

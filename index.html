@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en">
-  <head>
+
+<head>
     <!-- SEO Tags -->
     <title> BigMoji Generator - Image Splitter for Slack </title>
     <meta charset='UTF-8'>
@@ -15,173 +16,141 @@
     <meta charset="utf-8">
     <link rel="stylesheet" type="text/css" href="./style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.css"
-      integrity="sha512-hvNR0F/e2J7zPPfLC9auFe3/SE0yG4aJCOd/qxew74NN7eyiSKjr7xJJMu1Jy2wf7FXITpWS1E/RY8yzuXN7VA=="
-      crossorigin="anonymous" referrerpolicy="no-referrer" />
-  </head>
-  <body>
-    
+        integrity="sha512-hvNR0F/e2J7zPPfLC9auFe3/SE0yG4aJCOd/qxew74NN7eyiSKjr7xJJMu1Jy2wf7FXITpWS1E/RY8yzuXN7VA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body>
+
     <div class="columns is-centered p-5">
-      <div class="column is-half">
-        <div class="box p-6">
-          <h1 class="title is-1"> BigMoji Generator</h1>
-          <p class="subtitle is-5"> A small tool to split images into square tiles, like large Slack emojis (bigmojis). </p>
+        <div class="column is-half">
+            <div class="box p-6">
+                <h1 class="title is-1"> BigMoji Generator</h1>
+                <p class="subtitle is-5"> A small tool to split images into square tiles, like large Slack emojis
+                    (bigmojis). </p>
+            </div>
+
         </div>
-    
-      </div>
     </div>
-    
-    
-    <!--  -->
-    
-    <div class="columns mx-3">
-    
-      <!-- Form -->
-      <div class="column">
-        <div class="box">
-          <form id="upload-form">
-    
+
+    <form id="upload-form">
+    <div class="container" id="container">
+        <div class="box stepsDiv " id="stepImageUpload">
             <div class="field">
-              <div class="file has-name is-fullwidth">
-                <label class="file-label" for="file-upload">
-                  <input class="file-input " type="file" id="file-upload">
-                  <span class="file-cta">
-                    <span class="file-icon">
-                      <i class="fas fa-upload"></i>
-                    </span>
-                    <span class="file-label">
-                      Choose an emoji...
-                    </span>
-                  </span>
-                  <span class="file-name" id="file-name">
-                    No file selected.
-                  </span>
-                </label>
-              </div>
+                <div class="file has-name is-fullwidth">
+                    <label class="file-label" for="file-upload">
+                        <input class="file-input" type="file" id="file-upload">
+                        <span class="file-cta">
+                            <span class="file-icon">
+                                <i class="fas fa-upload"></i>
+                            </span>
+                            <span class="file-label">
+                                Choose an emoji...
+                            </span>
+                        </span>
+                        <span class="file-name" id="file-name">
+                            No file selected.
+                        </span>
+                    </label>
+                </div>
             </div>
-    
-            <div class="field">
-              <label for="squares">
-                What is the grid size?
-              </label>
-              <select class="input" id="grid">
-                <option value="2">2x2</option>
-                <option value="3">3x3</option>
-                <option value="4">4x4</option>
-                <option value="5">5x5</option>
-                <option value="6">6x6</option>
-                <option value="7">7x7</option>
-                <option value="8">8x8</option>
-                <option value="9">9x9</option>
-                <option value="10">10x10</option>
-              </select>
-            </div>
-    
-            <div class="field">
-              <label for="prefix">
-                Prefix for the image files:
-              </label>
-              <input class="input" type="text" id="prefix" placeholder="Prefix...">
-            </div>
-    
-            <!-- <div class="field">
-              <label for="prefix">
-                Delay between .gif frames in milliseconds
-              </label>
-              <input class="input" type="number" id="delay" value="10" placeholder="10">
-            </div> -->
-    
             <div class="field is-grouped is-grouped-right">
-              <button class="button" type="submit" value="Split" id="submit">Split</button>
+            <button class="button" id="stepImageUploadButton" type="button">Next</button>
             </div>
-    
-          </form>
         </div>
-      </div>
-    
-      <!-- Preview -->
-      <div class="column">
-        <div class="box">
-          <p><strong>Preview:</strong></p>
-          <div id="preview-box">
-            <div id="preview-div"></div>
-          </div>
+        <div class="box stepsDiv" id="stepImageCrop" style="display: none;">
+            <div class="container">
+                <img id="imageCropper" src="https://picsum.photos/1280/720">
+            </div>
+            <div class="field is-grouped is-grouped-right">
+            <button class="button" id="stepImageCropButton" type="button">Use cropped area</button>
+            </div>
         </div>
-      </div>
-    
-      <!-- Download -->
-      <div class="column">
-        <div class="box">
-          <button class="button is-primary is-responsive is-fullwidth" id="download"> Download </button>
-    
-          <div class="mt-3 has-text-grey-light">
-            <em>
-              <p id="download-progress"></p>
-              <p id="time-taken"></p>
-            </em>
-          </div>
-    
+        <div class="box stepsDiv" id="stepGridSize" style="display: none;">
+            <div class="field">
+                <label for="squares">
+                    What is the grid size?
+                </label>
+                <select class="input" id="grid">
+                    <option value="2">2x2</option>
+                    <option value="3">3x3</option>
+                    <option value="4">4x4</option>
+                    <option value="5">5x5</option>
+                    <option value="6">6x6</option>
+                    <option value="7">7x7</option>
+                    <option value="8">8x8</option>
+                    <option value="9">9x9</option>
+                    <option value="10">10x10</option>
+                </select>
+            </div>
+            <div class="field is-grouped is-grouped-right">
+            <button class="button" id="stepGridSizeButton" type="button">Next</button>
+            </div>
         </div>
-    
-        <div class="box">
-          <div class="px-5">
-            <h4 class="title is-5">Want to create your very own Bigmojis? It's easy:<h4>
-            <ol>
-              <li>Upload your emoji as an image <a href="crop.html">(a square image works best just click this link!)</a>.</li>
-              <li>Select how many squares you want horizontally (up to 10).</li>
-              <li>(Optional) Give your emoji a name.</li>
-              <li>Hit the Split button!</li>
-              <li>Click the 'Split' button.</li>
-              <li>Download your Bigmojis using the 'Download' button.</li>
-              <li>Add them to your Slack workspace. You can do this in your Slack app under 'Settings' -> 'Customize,' or visit {workspace}.slack.com/customize/emoji.</li>
-              <li>Insert the provided command into Slackbot. You can access Slackbot settings in your Slack app under 'Settings' -> 'Customize' or visit {workspace}.slack.com/customize/slackbot.</li>
-              <li>Enjoy sharing and communicating with your awesome Bigmojis!</li>
-            </ol>
-          </div>
-    
+        <div class="box stepsDiv" id="stepPrefix" style="display: none;">
+            <div class="field">
+                <label for="prefix">
+                    Prefix for the image files:
+                </label>
+                <input class="input" type="text" id="prefix" placeholder="Prefix...">
+                <div class="field is-grouped is-grouped-right">
+                    <button class="button" id="stepPrefixButton" type="button">Next</button>
+                </div>
+                
+            </div>
         </div>
-      </div>
+        <div class="box stepsDiv" id="stepPreviewDownload" style="display: none;">
+            <div class="columns">
+                <div class="column">
+                    <p><strong>Preview:</strong></p>
+                    <div id="preview-box">
+                        <div id="preview-div"></div>
+                    </div>
+                </div>
+                <div class="column">
+                    <button class="button is-primary is-responsive" id="download" type="button"> Download </button>
     
+                    <button class="button is-warning is-responsive" id="resetFormButton" type="button"> Start again </button>
+                </div>
+            </div>
+            <div class="columns">
+                <div class="column is-three-quarters">
+                    <p> Copy this to add to Slackbot. </p>
+                    <textarea id="commandTextArea" readonly class="textarea"></textarea>
+                </div>
+                <div class="column">
+                    <p> Copy this to paste manually. </p>
+                    <textarea id="commandJustCopyTextArea" readonly class="textarea"></textarea>
+                </div>
+            </div>
+        </div>
     </div>
-    
-    <!-- Textarea -->
-    <div class="box m-6">
-    
-      <div class="columns">
-        <div class="column is-three-quarters">
-          <p> Copy this to add to Slackbot. </p>
-          <textarea id="commandTextArea" readonly class="textarea"></textarea>
-        </div>
-        <div class="column">
-          <p> Copy this to paste manually. </p>
-          <textarea id="commandJustCopyTextArea" readonly class="textarea"></textarea>
-        </div>
-      </div>
-    
-    </div>
-    
+    </form>
+
     <footer id="footer" class="footer">
-      <div class="content has-text-centered">
-        <h4>
-          Image Splitter created by
-          <a href="https://alexjenkinson.com">Alex Jenkinson</a>
-        </h4>
-    
-        <h5>
-          This project is open source! Click
-          <a href="https://github.com/ParagonJenko/slackbot-multiline-emoji-js">here</a>
-          to view the repository.
-    
-          <p class="subtitle is-6"><em>Huge thanks has to go out to ChatGPT for guiding this project</p>
-        </h5>
-      </div>
+        <div class="content has-text-centered">
+            <h4>
+                Image Splitter created by
+                <a href="https://alexjenkinson.com">Alex Jenkinson</a>
+            </h4>
+
+            <h5>
+                This project is open source! Click
+                <a href="https://github.com/ParagonJenko/slackbot-multiline-emoji-js">here</a>
+                to view the repository.
+
+                <p class="subtitle is-6"><em>Huge thanks has to go out to ChatGPT for guiding this project</p>
+            </h5>
+        </div>
     </footer>
-    
+
     <script src="https://kit.fontawesome.com/7e9bf963b8.js" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.js"
-      integrity="sha512-9KkIqdfN7ipEW6B6k+Aq20PV31bjODg4AA52W+tYtAE0jE0kMx49bjJ3FgvS56wzmyfMUHbQ4Km2b7l9+Y/+Eg=="
-      crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        integrity="sha512-9KkIqdfN7ipEW6B6k+Aq20PV31bjODg4AA52W+tYtAE0jE0kMx49bjJ3FgvS56wzmyfMUHbQ4Km2b7l9+Y/+Eg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script type="module" src="./js/crop.js"></script>
     <script type="module" src="./js/main.js"></script>
 
-  </body>
+</body>
+
 </html>
