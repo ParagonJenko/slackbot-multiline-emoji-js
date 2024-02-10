@@ -18,6 +18,11 @@ function initializePage() {
     const commandTextArea = document.getElementById('commandTextArea');
     const commandJustCopyTextArea = document.getElementById('commandJustCopyTextArea');
     const cropperImage = document.getElementById('imageCropper');
+
+    document.getElementById("upload-form").addEventListener("submit", function(event) {
+        // Prevent the default form submission behavior
+        event.preventDefault();
+    });
     
     let fileInputText =  document.getElementById('file-name');
     let imageUrl = null; // Variable to store the URL of the selected image
