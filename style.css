@@ -1,7 +1,6 @@
 @import 'bulma/css/bulma.css';
 @import url('https://fonts.googleapis.com/css2?family=Playpen+Sans:wght@100;400;600&display=swap');
 
-
 body {
   background-color: #87CEEB;
   font-family: 'Playpen Sans', cursive;

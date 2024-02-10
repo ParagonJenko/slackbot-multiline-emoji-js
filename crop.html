@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- SEO Tags -->
+    <title> BigMoji Generator - Image Splitter for Slack </title>
+    <meta charset='UTF-8'>
+    <meta name='description' content='Splits images into square tiles specifically for Slack bigmojis.'>
+    <meta name='author' content='Alex Jenkinson'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <meta property='og:description' content='Splits images into square tiles specifically for Slack bigmojis.'>
+    <meta property='og:title' content='BigMoji Generator'>
+    <meta property='og:site_name' content='image-splitter'>
+    <meta property='og:type' content='website'>
+    <meta property='og:url' content='https://paragonjenko.github.io/slackbot-multiline-emoji-js/'>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="./style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.css"
+      integrity="sha512-hvNR0F/e2J7zPPfLC9auFe3/SE0yG4aJCOd/qxew74NN7eyiSKjr7xJJMu1Jy2wf7FXITpWS1E/RY8yzuXN7VA=="
+      crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+      <style>
+        /* Make sure the size of the image fits perfectly into the container */
+img {
+  display: block;
+}
+      </style>
+  </head>
+  <body>
+    
+    <div class="columns is-centered p-5">
+      <div class="column is-half">
+        <div class="box p-6">
+          <h1 class="title is-1"> BigMoji Generator - Crop</h1>
+          <p class="subtitle is-5"> A small tool to split images into square tiles, like large Slack emojis (bigmojis). </p>
+          <a href="index.html">Back to BigMoji</a>
+        </div>
+    
+      </div>
+    </div>
+
+    <div class="columns has-text-centered is-centered p-5">
+      <div class="is-three-quarters box">
+        <div class="column p-6">
+          <label class="file-label" for="file-upload">
+            <input class="file-input " type="file" id="file-upload">
+            <span class="file-cta">
+              <span class="file-icon">
+                <i class="fas fa-upload"></i>
+              </span>
+              <span class="file-label">
+                Choose an image...
+              </span>
+            </span>
+            <span class="file-name" id="file-name">
+              No file selected.
+            </span>
+          </label>
+        </div>
+        <div class="column">
+          <button class="button" id="download">Download cropped image</button>
+        </div>
+      </div>
+    </div>
+    
+    <div class="container">
+      <img id="image" src="https://picsum.photos/1280/720">
+    </div>
+  
+    
+    <footer id="footer" class="footer">
+      <div class="content has-text-centered">
+        <h4>
+          Image Splitter created by
+          <a href="https://alexjenkinson.com">Alex Jenkinson</a>
+        </h4>
+    
+        <h5>
+          This project is open source! Click
+          <a href="https://github.com/ParagonJenko/slackbot-multiline-emoji-js">here</a>
+          to view the repository.
+    
+          <p class="subtitle is-6"><em>Huge thanks has to go out to ChatGPT for guiding this project</p>
+        </h5>
+      </div>
+    </footer>
+    
+    <script src="https://kit.fontawesome.com/7e9bf963b8.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.js"
+      integrity="sha512-9KkIqdfN7ipEW6B6k+Aq20PV31bjODg4AA52W+tYtAE0jE0kMx49bjJ3FgvS56wzmyfMUHbQ4Km2b7l9+Y/+Eg=="
+      crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script type="module" src="./js/crop.js"></script>
+
+  </body>
+</html>

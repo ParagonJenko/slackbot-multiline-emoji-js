@@ -13,7 +13,6 @@
   },
   "dependencies": {
     "bulma": "^0.9.4",
-    "cropperjs": "^1.6.1",
     "jszip": "^3.10.1"
   }
 }
