@@ -2,6 +2,7 @@
 import * as imageProcessing from './imageProcessing.js';
 import { createZipFile, generateZipURL } from './fileIO.js';
 import * as utils from './utils.js';
+
 // Event listener for when the DOM has finished loading
 document.addEventListener('DOMContentLoaded', initializePage);
 
