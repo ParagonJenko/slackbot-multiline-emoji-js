@@ -3,12 +3,25 @@ import * as imageProcessing from './imageProcessing.js';
 import { createZipFile, generateZipURL } from './fileIO.js';
 import * as utils from './utils.js';
 import Cropper from 'cropperjs';
+import Analytics from 'analytics'
+import segmentPlugin from '@analytics/segment'
 
 // Event listener for when the DOM has finished loading
 document.addEventListener('DOMContentLoaded', initializePage);
 
+const analytics = Analytics({
+    app: 'bigmoji',
+    version: 100,
+    plugins: [
+        segmentPlugin({
+            writeKey: 'blSky9pOzH5qeOIjO9haVC1jaRWbvFgw'
+        })
+    ]
+  })
+
 // Function to initialize the page
 function initializePage() {
+    analytics.page();
     // Get references to various HTML elements
     const uploadForm = document.getElementById('upload-form');
     const fileInput = document.getElementById('file-upload');
@@ -264,6 +277,10 @@ function initializePage() {
                 downloadButton.disabled = false;
                 commandTextArea.value = utils.generateSlackbotCommand(gridSize, fileNameChosenOutput);
                 commandJustCopyTextArea.value = utils.generateSlackbotCommand(gridSize, fileNameChosenOutput, true);
+                /* Track a custom event */
+                analytics.track('processDownload', {
+                    file: fileNameChosenOutput,
+                })
             });
     }
 
@@ -279,6 +296,11 @@ function initializePage() {
             document.body.appendChild(downloadLink);
             downloadLink.click();
             document.body.removeChild(downloadLink);
+
+             /* Track a custom event */
+            analytics.track('downloadZip', {
+                file: fileNameChosenOutput,
+            })
         }
     }
 }
