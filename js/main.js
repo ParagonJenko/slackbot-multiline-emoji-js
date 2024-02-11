@@ -228,9 +228,6 @@ function initializePage() {
      * Initialises the cropper library and overwrites the uploaded file with the cropped version
      */
     function initaliseCropper() {
-        
-        
-
         const cropper = new Cropper(cropperImage, {
             aspectRatio: 1 / 1,
             viewMode: 3,
@@ -247,6 +244,9 @@ function initializePage() {
                         }
                         imageUrl = URL.createObjectURL(blob);
                         cropper.destroy();
+                        analytics.track('croppedImage', {
+                            file: imageUrl,
+                        })
                         nextItem(stepsArray[1], stepsArray[2]);
                     } else {
                         console.error("Failed to crop image.");
