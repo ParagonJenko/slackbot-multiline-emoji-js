@@ -17,11 +17,15 @@ const analytics = Analytics({
             writeKey: 'blSky9pOzH5qeOIjO9haVC1jaRWbvFgw'
         })
     ]
-  })
+})
+
+const userData = analytics.user();
 
 // Function to initialize the page
 function initializePage() {
-    analytics.page();
+    analytics.page({
+        id: userData.anonymousId,
+    });
     // Get references to various HTML elements
     const uploadForm = document.getElementById('upload-form');
     const fileInput = document.getElementById('file-upload');
@@ -262,6 +266,7 @@ function initializePage() {
                         cropper.destroy();
                         analytics.track('croppedImage', {
                             file: fileName,
+                            id: userData.anonymousId,
                         })
                         nextItem(stepsArray[1], stepsArray[2]);
                     } else {
@@ -296,6 +301,7 @@ function initializePage() {
                 /* Track a custom event */
                 analytics.track('processDownload', {
                     file: fileNameChosenOutput,
+                    id: userData.anonymousId,
                 })
             });
     }
@@ -316,6 +322,7 @@ function initializePage() {
              /* Track a custom event */
             analytics.track('downloadZip', {
                 file: fileNameChosenOutput,
+                id: userData.anonymousId,
             })
         }
     }
