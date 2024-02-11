@@ -44,6 +44,15 @@ body {
   flex: 1;
 }
 
+.slide-fade {
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.slide-left {
+  transform: translateX(-100%);
+  opacity: 0;
+}
+
 /* 
 #FFD700
 #FF6B6B

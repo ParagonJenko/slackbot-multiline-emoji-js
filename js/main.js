@@ -102,10 +102,26 @@ function initializePage() {
         nextItem(stepsArray[4], stepsArray[0])
     }
 
-    function nextItem(current, next){
-        document.getElementById(current).style.display = 'none';
-        document.getElementById(next).style.display = 'block';
+    function nextItem(currentId, nextId) {
+        var current = document.getElementById(currentId);
+        var next = document.getElementById(nextId);
+
+        // Add slide-fade class to current
+        current.classList.add('slide-fade', 'slide-left');
+
+        // Remove the element from the DOM after transition
+        current.addEventListener('transitionend', function() {
+            current.style.display = 'none';
+            current.classList.remove('slide-fade', 'slide-left');
+        });
+
+        // Display and add slide-fade class to next
+        next.style.display = 'block';
+        setTimeout(function() {
+            next.classList.add('slide-fade');
+        }, 10); // Delay to ensure the display style is applied before adding class
     }
+
 
     /**
      * A function to process the uploaded file
