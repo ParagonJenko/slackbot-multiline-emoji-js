@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', initializePage);
 
 const analytics = Analytics({
     app: 'bigmoji',
-    version: 100,
+    version: 200,
     plugins: [
         segmentPlugin({
             writeKey: 'blSky9pOzH5qeOIjO9haVC1jaRWbvFgw'
