@@ -261,7 +261,7 @@ function initializePage() {
                         imageUrl = URL.createObjectURL(blob);
                         cropper.destroy();
                         analytics.track('croppedImage', {
-                            file: imageUrl,
+                            file: fileName,
                         })
                         nextItem(stepsArray[1], stepsArray[2]);
                     } else {
