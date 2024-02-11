@@ -3,29 +3,15 @@ import * as imageProcessing from './imageProcessing.js';
 import { createZipFile, generateZipURL } from './fileIO.js';
 import * as utils from './utils.js';
 import Cropper from 'cropperjs';
-import Analytics from 'analytics'
-import segmentPlugin from '@analytics/segment'
+
+import { logPageLoad, logFileEvent } from './analytics.js';
 
 // Event listener for when the DOM has finished loading
 document.addEventListener('DOMContentLoaded', initializePage);
 
-const analytics = Analytics({
-    app: 'bigmoji',
-    version: 200,
-    plugins: [
-        segmentPlugin({
-            writeKey: 'blSky9pOzH5qeOIjO9haVC1jaRWbvFgw'
-        })
-    ]
-})
-
-const userData = analytics.user();
-
 // Function to initialize the page
 function initializePage() {
-    analytics.page({
-        id: userData.anonymousId,
-    });
+    logPageLoad();
     // Get references to various HTML elements
     const uploadForm = document.getElementById('upload-form');
     const fileInput = document.getElementById('file-upload');
@@ -264,10 +250,7 @@ function initializePage() {
                         }
                         imageUrl = URL.createObjectURL(blob);
                         cropper.destroy();
-                        analytics.track('croppedImage', {
-                            file: fileName,
-                            id: userData.anonymousId,
-                        })
+                        logFileEvent("Image cropped", fileName);
                         nextItem(stepsArray[1], stepsArray[2]);
                     } else {
                         console.error("Failed to crop image.");
@@ -298,11 +281,7 @@ function initializePage() {
                 downloadButton.disabled = false;
                 commandTextArea.value = utils.generateSlackbotCommand(gridSize, fileNameChosenOutput);
                 commandJustCopyTextArea.value = utils.generateSlackbotCommand(gridSize, fileNameChosenOutput, true);
-                /* Track a custom event */
-                analytics.track('processDownload', {
-                    file: fileNameChosenOutput,
-                    id: userData.anonymousId,
-                })
+                logFileEvent("Download processed", fileName);
             });
     }
 
@@ -320,10 +299,7 @@ function initializePage() {
             document.body.removeChild(downloadLink);
 
              /* Track a custom event */
-            analytics.track('downloadZip', {
-                file: fileNameChosenOutput,
-                id: userData.anonymousId,
-            })
+            logFileEvent("File downloaded", fileName);
         }
     }
 }
