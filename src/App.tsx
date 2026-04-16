@@ -4,6 +4,7 @@ import StepCrop from './components/StepCrop';
 import StepGridSize from './components/StepGridSize';
 import StepPrefix from './components/StepPrefix';
 import StepPreviewDownload from './components/StepPreviewDownload';
+import PrivacyPolicy from './components/PrivacyPolicy';
 import s from './App.module.css';
 
 export type Step = 'upload' | 'crop' | 'gridSize' | 'prefix' | 'preview';
@@ -30,6 +31,7 @@ const INITIAL_STATE: AppState = {
 
 export default function App() {
     const [state, setState] = useState<AppState>(INITIAL_STATE);
+    const [showPrivacy, setShowPrivacy] = useState(false);
 
     function update(patch: Partial<AppState>) {
         setState((prev) => ({ ...prev, ...patch }));
@@ -44,6 +46,22 @@ export default function App() {
     function reset() {
         if (state.imageUrl) URL.revokeObjectURL(state.imageUrl);
         setState(INITIAL_STATE);
+    }
+
+    if (showPrivacy) {
+        return (
+            <div className={s.wrapper}>
+                <main className={s.main}>
+                    <PrivacyPolicy onBack={() => setShowPrivacy(false)} />
+                </main>
+                <footer className={s.footer}>
+                    <h4>
+                        🛠️ Built by{' '}
+                        <a href="https://alexjenkinson.com">Alex Jenkinson</a>
+                    </h4>
+                </footer>
+            </div>
+        );
     }
 
     return (
@@ -81,7 +99,9 @@ export default function App() {
                 <p className={s.footerNote}>
                     <em>🤖 Huge thanks to ChatGPT for guiding this project.</em>
                 </p>
-                <a href="privacy-policy.pdf">Privacy Policy</a>
+                <button className={s.footerLink} onClick={() => setShowPrivacy(true)} type="button">
+                    Privacy Policy
+                </button>
             </footer>
         </div>
     );

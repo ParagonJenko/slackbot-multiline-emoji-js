@@ -49,11 +49,11 @@ describe('createSmallerImages', () => {
                 drawImage: vi.fn((_img: unknown, dx: number, dy: number) => drawCalls.push({ dx, dy })),
                 clearRect: vi.fn(),
                 putImageData: vi.fn(),
-                getImageData: vi.fn((x: number, y: number, w: number, h: number) => new ImageData(w, h)),
+                getImageData: vi.fn((_x: number, _y: number, w: number, h: number) => new ImageData(w, h)),
                 createImageData: vi.fn((w: number, h: number) => new ImageData(w, h)),
                 fillRect: vi.fn(),
             } as unknown as CanvasRenderingContext2D;
-        }) as typeof HTMLCanvasElement.prototype.getContext;
+        }) as unknown as typeof HTMLCanvasElement.prototype.getContext;
 
         await createSmallerImages('blob:fake', 3);
 
