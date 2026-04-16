@@ -6,16 +6,29 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage"
   },
   "devDependencies": {
-    "vite": "^4.4.5"
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^4.7.0",
+    "@vitest/coverage-v8": "^4.1.4",
+    "jsdom": "^29.0.2",
+    "typescript": "^6.0.2",
+    "vite": "^5.4.21",
+    "vitest": "^4.1.4"
   },
   "dependencies": {
     "@analytics/segment": "^2.1.0",
     "analytics": "^0.8.9",
-    "bulma": "^0.9.4",
     "cropperjs": "^1.6.1",
-    "jszip": "^3.10.1"
+    "gifenc": "^1.0.3",
+    "gifuct-js": "^2.1.2",
+    "jszip": "^3.10.1",
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5"
   }
 }
