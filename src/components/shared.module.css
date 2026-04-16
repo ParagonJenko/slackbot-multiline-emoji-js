@@ -1,0 +1,145 @@
+/* Shared primitives used across all step components */
+
+.card {
+    background: var(--color-surface);
+    box-shadow: var(--shadow-card);
+    border-radius: var(--radius-card);
+    padding: 2rem 2rem 1.5rem;
+    width: 100%;
+    max-width: var(--step-max-width);
+    animation: fadeSlideIn 0.25s ease both;
+}
+
+@keyframes fadeSlideIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Form elements ───────────────────────────────────────── */
+
+.label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 0.5rem;
+}
+
+.input,
+.select,
+.textarea {
+    display: block;
+    width: 100%;
+    padding: 0.6rem 0.875rem;
+    font-family: var(--font-ui);
+    font-size: 0.95rem;
+    color: #1F2937;
+    background: #ffffff;
+    border: 1.5px solid var(--color-border);
+    border-radius: var(--radius-input);
+    outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+    appearance: none;
+}
+
+.input:focus,
+.select:focus,
+.textarea:focus {
+    border-color: var(--color-input-focus);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12);
+}
+
+.textarea {
+    resize: vertical;
+    min-height: 7rem;
+    line-height: 1.6;
+    font-size: 0.85rem;
+}
+
+.selectWrapper {
+    position: relative;
+}
+
+.selectWrapper::after {
+    content: '';
+    position: absolute;
+    right: 0.875rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid var(--color-muted);
+    pointer-events: none;
+}
+
+/* ── Buttons ─────────────────────────────────────────────── */
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.55rem 1.25rem;
+    font-family: var(--font-ui);
+    font-size: 0.9rem;
+    font-weight: 600;
+    border: none;
+    border-radius: var(--radius-btn);
+    cursor: pointer;
+    transition: background-color 0.15s, opacity 0.15s, transform 0.1s;
+    white-space: nowrap;
+}
+
+.btn:active {
+    transform: scale(0.97);
+}
+
+.btn:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.btnPrimary {
+    composes: btn;
+    background-color: var(--color-primary);
+    color: #ffffff;
+}
+
+.btnPrimary:hover:not(:disabled) {
+    background-color: var(--color-primary-hover);
+}
+
+.btnWarning {
+    composes: btn;
+    background-color: transparent;
+    color: var(--color-warning);
+    border: 1.5px solid var(--color-warning);
+}
+
+.btnWarning:hover:not(:disabled) {
+    background-color: var(--color-warning);
+    color: #ffffff;
+}
+
+/* ── Row utilities ───────────────────────────────────────── */
+
+.actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    margin-top: 1.25rem;
+}
+
+.field {
+    margin-bottom: 1.25rem;
+}
+
+/* ── Help text ───────────────────────────────────────────── */
+
+.help {
+    font-size: 0.8rem;
+    color: var(--color-muted);
+    margin-top: 0.4rem;
+}

@@ -1,0 +1,36 @@
+.fileArea {
+    border: 2px dashed var(--color-border);
+    border-radius: var(--radius-input);
+    padding: 1.5rem 1rem;
+    cursor: pointer;
+    transition: border-color 0.15s, background-color 0.15s;
+    text-align: center;
+    position: relative;
+}
+
+.fileArea:hover {
+    border-color: var(--color-primary);
+    background-color: rgba(99, 102, 241, 0.03);
+}
+
+.fileInput {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.filePrompt {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-primary);
+    display: block;
+    margin-bottom: 0.25rem;
+}
+
+.fileName {
+    font-size: 0.82rem;
+    color: var(--color-muted);
+}

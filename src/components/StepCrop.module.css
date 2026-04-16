@@ -1,0 +1,12 @@
+.imageWrapper {
+    width: 100%;
+    margin-bottom: 1rem;
+    border-radius: var(--radius-input);
+    overflow: hidden;
+    background: #f3f4f6;
+}
+
+.imageWrapper img {
+    display: block;
+    max-width: 100%;
+}

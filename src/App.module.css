@@ -1,0 +1,89 @@
+.wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ── Header ──────────────────────────────────────────────── */
+
+.header {
+    display: flex;
+    justify-content: center;
+    padding: 2.5rem 1.5rem 1rem;
+}
+
+.headerCard {
+    background: var(--color-surface);
+    box-shadow: var(--shadow-card);
+    border-radius: var(--radius-card);
+    padding: 2rem 2.5rem;
+    max-width: var(--step-max-width);
+    width: 100%;
+}
+
+.title {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 2.25rem;
+    letter-spacing: -0.01em;
+    color: #111827;
+    margin-bottom: 0.5rem;
+}
+
+.subtitle {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 1rem;
+    color: var(--color-muted);
+    line-height: 1.5;
+}
+
+/* ── Main content area ───────────────────────────────────── */
+
+.main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 1.5rem 2rem;
+    flex: 1;
+}
+
+/* ── Footer ──────────────────────────────────────────────── */
+
+.footer {
+    background-color: var(--color-footer-bg);
+    padding: 2rem 1.5rem;
+    text-align: center;
+    margin-top: auto;
+}
+
+.footer h4,
+.footer h5,
+.footer p {
+    color: var(--color-footer-text);
+    font-size: 0.95rem;
+    margin-bottom: 0.35rem;
+    font-weight: 400;
+}
+
+.footer h4 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.footer a {
+    color: var(--color-footer-link);
+}
+
+.footer a:hover {
+    color: #ffffff;
+    text-decoration: underline;
+}
+
+.footerNote {
+    margin-top: 0.75rem;
+    font-size: 0.8rem;
+    color: var(--color-footer-link);
+    font-style: italic;
+}
